@@ -354,7 +354,6 @@ public class QuickGUI {
      * @param handler for handling events
      */
     private void buildGUI(QFrame model, ActionListener handler) {
-        System.out.println(model);
         // Create and set up the window.
         JFrame frame = new JFrame(model.name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
