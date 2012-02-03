@@ -153,7 +153,7 @@ public abstract class EntityRelation {
         }
         /**
          * Perform the actual initialization
-         * Currently, multi-relation argument must be empty during initialization
+         * <i>Note: currently, multi-relation argument must be empty during initialization!</i>
          * @param typeName the type of the entity
          * @param contents one argument for each of the contents to be stored in the array
          */
