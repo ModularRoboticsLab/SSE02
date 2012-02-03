@@ -1,0 +1,22 @@
+SSE02 students: there are a number of obvious exercises that you can
+do with source code.
+
+(1) Extend the quickgui framework to support more GUI elements.
+
+(2) Use the quickgui framework to control more of the example
+    applications.
+
+(3) Extend the serialization framework to have a more complete support
+    of different data types.
+
+(4) Extend the entity-relation framework to support a richer set of
+    relation and data types.
+
+(5) Extend the entity-relation framework with automatic serialization
+    to e.g. an XML-based format (beware of cycles in the graph).
+
+Note: if you do these exercises by forking the github repository and
+working there (requires you to use git for version control), it is
+easy for others to see what you have been doing and easy for you to
+contribute useful functionality back, should you wish to do so (you'll
+get your name in the source code, whee!).
