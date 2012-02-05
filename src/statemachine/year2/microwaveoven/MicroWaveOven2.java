@@ -2,7 +2,6 @@ package statemachine.year2.microwaveoven;
 
 import javax.swing.JLabel;
 
-import quickqui.QuickGUI;
 import statemachine.year2.framework.GraphicalMachine;
 import statemachine.year1.microwaveoven.MicroWaveOven1.ControlGUI;
 
