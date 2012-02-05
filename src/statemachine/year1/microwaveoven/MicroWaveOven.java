@@ -13,7 +13,7 @@ public class MicroWaveOven extends GraphicalMachine {
         
         @Override 
         public void build() {
-            frame("Microwve oven",Layout.VERTICAL,
+            frame("Microwave oven",Layout.VERTICAL,
                 panel(Layout.HORIZONTAL,
                   label(text("Current state: ")),
                   label(name("state"),text("?"))),
