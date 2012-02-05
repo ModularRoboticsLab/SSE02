@@ -19,7 +19,7 @@ public abstract class CDPlayerState extends State {
             machine().setTrack(machine().getTrack()+1);
         }
         else if(event.code().equals("BACK")) {
-            if(machine().getTrack()>0)
+            if(machine().getTrack()>1)
                 machine().setTrack(machine().getTrack()-1);
         }
     }
