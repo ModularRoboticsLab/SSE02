@@ -1,18 +1,15 @@
 package statemachine.year1.cookinghood;
 
-import java.awt.event.ActionEvent;
-import java.util.Observable;
 import javax.swing.JLabel;
 
 import quickqui.QuickGUI;
-import statemachine.year1.library.Event;
 import statemachine.year1.library.GraphicalMachine;
 
 public class CookingHood extends GraphicalMachine {
 
     private static String POWER_ON_COMMAND = "__ON__";
     
-   public static class ControlGUI extends QuickGUI.GUIModel {
+    public static class ControlGUI extends QuickGUI.GUIModel {
         
         @Override 
         public void build() {
@@ -38,28 +35,15 @@ public class CookingHood extends GraphicalMachine {
      * Create GUI and then activate robot server functionality
      */
     public static void main(String argv[]) {
-        new CookingHood(new ControlGUI(),new CookingHoodMachine());
+        new CookingHood();
     }
     
-    public CookingHood(ControlGUI controlGUI, CookingHoodMachine cookingHoodMachine) {
-        super(controlGUI,cookingHoodMachine);
+    public CookingHood() {
+        super(new ControlGUI(),new CookingHoodMachine(),POWER_ON_COMMAND);
     }
 
-
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals(POWER_ON_COMMAND))
-            machine.initialize();
-        else {
-            Event event = new Event(e.getActionCommand());
-            machine.processEvent(event);
-        }
-    }
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if(!(o==machine)) throw new Error("Inconsistent observer notification");
+    public void update() {
         ((JLabel)gui.getComponent("state")).setText(machine.getState().toString());
         ((JLabel)gui.getComponent("power")).setText(new Integer(((CookingHoodMachine)machine).getPower()).toString());
     }
