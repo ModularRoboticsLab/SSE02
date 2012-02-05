@@ -1,7 +1,6 @@
 package statemachine.year1.microwaveoven;
 
 import statemachine.year1.library.Event;
-import statemachine.year1.library.State;
 
 public class InactiveState extends MicrowaveOvenState {
 

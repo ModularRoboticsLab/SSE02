@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import statemachine.year1.library.Event;
+
 public class State {
 
     private Machine machine;

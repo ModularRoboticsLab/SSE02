@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import quickqui.QuickGUI;
+import statemachine.year1.library.Event;
 
 public abstract class GraphicalMachine implements ActionListener, Observer {
 

@@ -1,15 +1,15 @@
-package statemachine.year2.cdplayer;
+package statemachine.year1.cdplayer;
 
 import javax.swing.JLabel;
 
 import quickqui.QuickGUI;
-import statemachine.year2.framework.GraphicalMachine;
+import statemachine.year1.library.GraphicalMachine;
 
-public class CDPlayer extends GraphicalMachine {
+public class CDPlayer1 extends GraphicalMachine {
 
-    private static String POWER_ON_COMMAND = "__ON__";
-    
     public static class ControlGUI extends QuickGUI.GUIModel {
+        
+        public static String POWER_ON_COMMAND = "__ON__";
         
         @Override 
         public void build() {
@@ -40,11 +40,11 @@ public class CDPlayer extends GraphicalMachine {
      * Create GUI and then activate robot server functionality
      */
     public static void main(String argv[]) {
-        new CDPlayer();
+        new CDPlayer1();
     }
     
-    public CDPlayer() {
-        super(new ControlGUI(),new CDPlayerMachine(),POWER_ON_COMMAND);
+    public CDPlayer1() {
+        super(new ControlGUI(),new CDPlayerMachine(),ControlGUI.POWER_ON_COMMAND);
     }
 
     @Override

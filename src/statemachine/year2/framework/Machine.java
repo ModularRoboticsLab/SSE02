@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 
+import statemachine.year1.library.Event;
+
 public abstract class Machine extends Observable {
     
     private State currentState;

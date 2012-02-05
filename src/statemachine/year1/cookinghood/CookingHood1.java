@@ -1,15 +1,15 @@
-package statemachine.year2.cookinghood;
+package statemachine.year1.cookinghood;
 
 import javax.swing.JLabel;
 
 import quickqui.QuickGUI;
-import statemachine.year2.framework.GraphicalMachine;
+import statemachine.year1.library.GraphicalMachine;
 
-public class CookingHood extends GraphicalMachine {
+public class CookingHood1 extends GraphicalMachine {
 
-    private static String POWER_ON_COMMAND = "__ON__";
-    
     public static class ControlGUI extends QuickGUI.GUIModel {
+        
+        public static String POWER_ON_COMMAND = "__ON__";
         
         @Override 
         public void build() {
@@ -35,11 +35,11 @@ public class CookingHood extends GraphicalMachine {
      * Create GUI and then activate robot server functionality
      */
     public static void main(String argv[]) {
-        new CookingHood();
+        new CookingHood1();
     }
     
-    public CookingHood() {
-        super(new ControlGUI(),new CookingHoodMachine(),POWER_ON_COMMAND);
+    public CookingHood1() {
+        super(new ControlGUI(),new CookingHoodMachine(),ControlGUI.POWER_ON_COMMAND);
     }
 
     @Override

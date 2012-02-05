@@ -1,15 +1,15 @@
-package statemachine.year2.microwaveoven;
+package statemachine.year1.microwaveoven;
 
 import javax.swing.JLabel;
 
 import quickqui.QuickGUI;
-import statemachine.year2.framework.GraphicalMachine;
+import statemachine.year1.library.GraphicalMachine;
 
-public class MicroWaveOven extends GraphicalMachine {
+public class MicroWaveOven1 extends GraphicalMachine {
 
-    private static String POWER_ON_COMMAND = "__ON__";
-    
     public static class ControlGUI extends QuickGUI.GUIModel {
+        
+        public static String POWER_ON_COMMAND = "__ON__";
         
         @Override 
         public void build() {
@@ -41,11 +41,11 @@ public class MicroWaveOven extends GraphicalMachine {
      * Create GUI and then activate robot server functionality
      */
     public static void main(String argv[]) {
-        new MicroWaveOven();
+        new MicroWaveOven1();
     }
     
-    public MicroWaveOven() {
-        super(new ControlGUI(),new MicrowaveMachine(),POWER_ON_COMMAND);
+    public MicroWaveOven1() {
+        super(new ControlGUI(),new MicrowaveMachine(),ControlGUI.POWER_ON_COMMAND);
     }
 
     @Override
