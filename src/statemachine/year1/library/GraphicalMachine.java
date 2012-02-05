@@ -16,6 +16,7 @@ public abstract class GraphicalMachine implements ActionListener, Observer {
     public GraphicalMachine(QuickGUI.GUIModel model, Machine machine, String powerOnCommand) {
         this.gui = new QuickGUI(model,this);
         this.machine = machine;
+        this.powerOnCommand = powerOnCommand;
         this.machine.addObserver(this);
     }
 
