@@ -1,0 +1,17 @@
+The statemachines example in package statemachine.* consists of a simulated 
+development sequence of 3 statemachines. The development sequence is indicated 
+by the package names: statemachine.year1 corresponds to a first version of all 
+three statemachines, statemachine.year2 corresponds to the next iteration, and 
+statemachine.year3 corresponds to the last iteration. In all three iterations, 
+statemachines for a microwave oven, a cooking hood, and a CD player are 
+developed. This directory contains diagram sketches of these statemachines, 
+which have the same functionality across all three years.
+
+The sequence of iterations is as follows:
+year1: standard object-oriented state machine, one class per state
+year2: refactoring into a generic state machine library (similar to Fowler), 
+       more compact code and more reuse
+year3: internal DSL (aka fluent interface) for building state machines using 
+       the generic framework
+
+Where possible, functionality from previous iterations is reused directly.
