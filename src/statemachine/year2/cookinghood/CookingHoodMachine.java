@@ -37,7 +37,9 @@ public class CookingHoodMachine extends Machine {
             @Override public void effect() { power--; }
         });
         STATE_MAX_POWER = new State(this,"MAX_POWER");
-        STATE_MAX_POWER.addTransition("MINUS", new Transition("POWER_ON"));
+        STATE_MAX_POWER.addTransition("MINUS", new Transition("POWER_ON") {
+            @Override public void effect() { power=MAX_POWER; }
+        });
     }
     
     @Override
