@@ -7,6 +7,9 @@ import statemachine.year1.library.GraphicalMachine;
 
 public class MicroWaveOven1 extends GraphicalMachine {
 
+    /**
+     * GUI for microwave oven test
+     */
     public static class ControlGUI extends QuickGUI.GUIModel {
         
         public static String POWER_ON_COMMAND = "__ON__";
@@ -37,9 +40,6 @@ public class MicroWaveOven1 extends GraphicalMachine {
         }
     }
 
-    /**
-     * Create GUI and then activate robot server functionality
-     */
     public static void main(String argv[]) {
         new MicroWaveOven1();
     }
@@ -48,9 +48,12 @@ public class MicroWaveOven1 extends GraphicalMachine {
         super(new ControlGUI(),new MicrowaveMachine(),ControlGUI.POWER_ON_COMMAND);
     }
 
+    /**
+     * Handle updates to the state machine, display the current state in the GUI
+     */
     @Override
     public void update() {
-        ((JLabel)gui.getComponent("state")).setText(machine.getState().toString());
+        ((JLabel)gui.getComponent("state")).setText(machine.getStateName());
     }
 
 }

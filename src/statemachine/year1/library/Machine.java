@@ -2,7 +2,12 @@ package statemachine.year1.library;
 
 import java.util.Observable;
 
-public abstract class Machine extends Observable {
+/**
+ * Abstract state machine class: has a current state, starts in initial state,
+ * and can process events by sending them to the current state
+ * @author ups
+ */
+public abstract class Machine extends Observable implements IMachine {
     
     private State currentState;
     
@@ -16,11 +21,10 @@ public abstract class Machine extends Observable {
         currentState = state;
     }
 
-    public State getState() {
-        return currentState;
+    public String getStateName() {
+        return currentState.toString();
     }
 
-    
     public void processEvent(Event event) {
         if(currentState==null) throw new Error("State machine not initialized");
         currentState.processEvent(event);

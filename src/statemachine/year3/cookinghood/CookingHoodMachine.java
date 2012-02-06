@@ -5,13 +5,15 @@ import statemachine.year3.dsl.IntegerState;
 
 public class CookingHoodMachine extends FluentMachine {
 
+    // Constants
     private static final int MIN_POWER = 1;
     private static final int MAX_POWER = 6;
 
+    // Extended state
     private IntegerState power;
-    
     public int getPower() { return power.value(); }
     
+    // State machine definition
     @Override
     protected void build() {
         power = new IntegerState();

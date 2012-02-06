@@ -6,10 +6,22 @@ import java.util.Map;
 import java.util.Observable;
 
 import statemachine.year1.library.Event;
+import statemachine.year1.library.IMachine;
 
-public abstract class Machine extends Observable {
-    
+/**
+ * State machine: keeps track of current state, stores a map from state name
+ * to state object (used to perform state transitions).
+ * @author ups
+ */
+public abstract class Machine extends Observable implements IMachine {
+
+    /**
+     * Current state
+     */
     private State currentState;
+    /**
+     * Map from state name to state object
+     */
     private Map<String,State> states = new HashMap<String,State>();
     
     public void initialize() {
@@ -27,8 +39,8 @@ public abstract class Machine extends Observable {
         currentState = state;
     }
 
-    public State getState() {
-        return currentState;
+    public String getStateName() {
+        return currentState.toString();
     }
 
     
@@ -39,6 +51,11 @@ public abstract class Machine extends Observable {
         notifyObservers();
     }
     
+    /**
+     * Overridden by concrete state machine.  By convention the first element must be
+     * the initial state.
+     * @return List of all states, first element is initial state
+     */
     protected abstract List<State> getAllStates();
 
 }

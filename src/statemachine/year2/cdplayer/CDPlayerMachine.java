@@ -9,13 +9,16 @@ import statemachine.year2.framework.Transition;
 
 public class CDPlayerMachine extends Machine {
 
+    // States
     private State STATE_STOP, STATE_PLAYING, STATE_PAUSED;
     
+    // Extended state
     private int track;
-    
     public int getTrack() { return track; }
-    
+
+    // State machine definition
     public CDPlayerMachine() {
+        // Forward and backward transitions are identical in STOPPED and PAUSED, share
         Transition forward = new Transition(null) {
             @Override public void effect() { track++; }
         };
@@ -23,9 +26,11 @@ public class CDPlayerMachine extends Machine {
             @Override public boolean isApplicable() { return track>1; }
             @Override public void effect() { track--; }
         };
+        // Stop transition is identical in PLAYING and PAUSED, share
         Transition stop = new Transition("STOP") {
             @Override public void effect() { track=0; } 
         };
+        // Define states and transitions
         STATE_STOP = new State(this,"STOP");
         STATE_STOP.addTransition("PLAY", new Transition("PLAYING") {
            @Override public void effect() { if(track==0) track=1; } 

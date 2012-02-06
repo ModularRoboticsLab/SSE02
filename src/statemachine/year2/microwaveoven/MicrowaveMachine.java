@@ -9,8 +9,10 @@ import statemachine.year2.framework.Transition;
 
 public class MicrowaveMachine extends Machine {
 
+    // States
     private State STATE_INACTIVE, STATE_COOKING, STATE_DOOR_OPEN;
     
+    // State machine definition
     public MicrowaveMachine() {
         STATE_INACTIVE = new State(this,"INACTIVE");
         STATE_INACTIVE.addTransition("START", new Transition("COOKING"));

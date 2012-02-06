@@ -1,16 +1,21 @@
 package statemachine.year1.library;
 
+/**
+ * Abstract state class: can process events (subclasses must provide behavior),
+ * keeps a reference to the machine to which it belongs to enable changing its state.
+ * @author ups
+ */
 public abstract class State {
 
-    private Machine machine;
+    private IMachine machine;
 
-    public State(Machine machine) {
+    public State(IMachine machine) {
         this.machine = machine;
     }
 
     public abstract void processEvent(Event event);
     
-    public Machine machine() {
+    public IMachine machine() {
         return machine;
     }
 

@@ -5,10 +5,11 @@ import statemachine.year3.dsl.IntegerState;
 
 public class CDPlayerMachine extends FluentMachine {
 
+    // Extended state
     private IntegerState track;
-    
     public int getTrack() { return track.value(); }
     
+    // State machine definition
     @Override
     protected void build() {
         track = new IntegerState();

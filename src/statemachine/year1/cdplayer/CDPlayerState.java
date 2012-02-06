@@ -3,6 +3,11 @@ package statemachine.year1.cdplayer;
 import statemachine.year1.library.Event;
 import statemachine.year1.library.State;
 
+/**
+ * Abstract helper class: provides typed access to the state machine,
+ * and contains some abstract behaviors used in several states.
+ * @author ups
+ */
 public abstract class CDPlayerState extends State {
 
     public CDPlayerState(CDPlayerMachine machine) {

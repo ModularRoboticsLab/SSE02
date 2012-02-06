@@ -7,6 +7,9 @@ import statemachine.year1.library.GraphicalMachine;
 
 public class CookingHood1 extends GraphicalMachine {
 
+    /**
+     * GUI for cooking hood test
+     */
     public static class ControlGUI extends QuickGUI.GUIModel {
         
         public static String POWER_ON_COMMAND = "__ON__";
@@ -31,9 +34,6 @@ public class CookingHood1 extends GraphicalMachine {
         }
     }
 
-    /**
-     * Create GUI and then activate robot server functionality
-     */
     public static void main(String argv[]) {
         new CookingHood1();
     }
@@ -42,9 +42,12 @@ public class CookingHood1 extends GraphicalMachine {
         super(new ControlGUI(),new CookingHoodMachine(),ControlGUI.POWER_ON_COMMAND);
     }
 
+    /**
+     * Handle updates to the state machine, display the current state in the GUI
+     */
     @Override
     public void update() {
-        ((JLabel)gui.getComponent("state")).setText(machine.getState().toString());
+        ((JLabel)gui.getComponent("state")).setText(machine.getStateName());
         ((JLabel)gui.getComponent("power")).setText(new Integer(((CookingHoodMachine)machine).getPower()).toString());
     }
 

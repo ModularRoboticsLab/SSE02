@@ -9,15 +9,18 @@ import statemachine.year2.framework.Transition;
 
 public class CookingHoodMachine extends Machine {
 
+    // Constants
     private static final int MIN_POWER = 1;
     private static final int MAX_POWER = 6;
 
+    // States
     private State STATE_POWER_OFF, STATE_POWER_ON, STATE_MAX_POWER;
     
+    // Extended state
     private int power;
-    
     public int getPower() { return power; }
     
+    // State machine definition
     public CookingHoodMachine() {
         STATE_POWER_OFF = new State(this,"POWER_OFF");
         STATE_POWER_OFF.addTransition("PLUS", new Transition("POWER_ON") { 

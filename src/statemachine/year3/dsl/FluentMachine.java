@@ -7,18 +7,37 @@ import statemachine.year2.framework.Machine;
 import statemachine.year2.framework.State;
 import statemachine.year2.framework.Transition;
 
+/**
+ * Abstract class providing a fluent interface for defining a state machine using
+ * the generic statemachine framework (year2).  Acts as a builder.
+ * @author ups
+ */
 public abstract class FluentMachine extends Machine {
 
+    // Enums defining the types of effects and conditions that can be used
     private enum Effect { SET, CHANGE }
     private enum Condition { EQUAL, GREATER }
     
+    // The complete list of all states (first is assumed to be initial)
     private List<State> allStates = new ArrayList<State>();
+    // The current state being built
     private State currentState;
-    private String pendingEvent, targetTransition;
+    // The current event that transitions are being defined for
+    private String pendingEvent;
+    // The target of the current transition
+    private String targetTransition;
+    // The effect of the current transition, if any
     private Effect effectMaybe;
+    // The constant argument to the effect on the current transition, if any
     private int effectArgument;
+    // The mutable state acted upon by the effet on the current transition, if any
     private IntegerState effectVariable;
     
+    /**
+     * Build a machine using the fluent interface.  First call build (overridden in subclass),
+     * then ensure that all transitions associated with the current state have been defined,
+     * and last add the state as the last in the list of states
+     */
     public FluentMachine() {
         build();
         flushTransition(null,null,0);
@@ -30,8 +49,14 @@ public abstract class FluentMachine extends Machine {
         return allStates;
     }
 
+    /**
+     * Override in subclasses, must define state machine using fluent interface (and initialize state variables)
+     */
     protected abstract void build();
     
+    /**
+     * Start a new state, of the given name
+     */
     public FluentMachine state(String name) {
         if(currentState!=null) {
             flushTransition(null,null,0);
@@ -41,25 +66,41 @@ public abstract class FluentMachine extends Machine {
         return this;
     }
     
+    /**
+     * Define a new transition, in the context of the current state
+     */
     public FluentMachine transition(String event) {
         if(targetTransition!=null || effectMaybe!=null) flushTransition(null,null,0);
         pendingEvent = event;
         return this;
     }
     
+    /**
+     * Name the target state of the current transition
+     */
     public FluentMachine to(String state) {
         targetTransition = state;
         return this;
         
     }
-    
+
+    /**
+     * Include a set state effect in the current transition
+     * @param variable the variable to set
+     * @param value the value to set it to
+     */
     public FluentMachine setState(IntegerState variable, int value) {
         effectMaybe = Effect.SET;
         effectVariable = variable;
         effectArgument = value;
         return this;
     }
-    
+
+    /**
+     * Include a change state effect in the current transition
+     * @param variable the variable to change
+     * @param value the value to add to the variable
+     */
     public FluentMachine changeState(IntegerState variable, int value) {
         effectMaybe = Effect.CHANGE;
         effectVariable = variable;
@@ -67,34 +108,60 @@ public abstract class FluentMachine extends Machine {
         return this;
     }
     
+    /**
+     * Add an equals condition to the current transition
+     * @param variable the variable to have a condition on
+     * @param value the value to compare to
+     */
     public FluentMachine whenStateEquals(IntegerState variable, int value) {
         flushTransition(Condition.EQUAL,variable,value);
         return this;
     }
     
+    /**
+     * Add a comparison condition to the current transition
+     * @param variable the variable to have a condition on
+     * @param value the value to compare to
+     */
     public FluentMachine whenStateGreaterThan(IntegerState variable, int value) {
         flushTransition(Condition.GREATER,variable,value);
         return this;
     }
     
+    /**
+     * Indicate that a state is a simple alternative (syntactic sugar)
+     */
     public FluentMachine otherwise() {
         flushTransition(null,null,0);
         return this;
     }
 
+    /**
+     * Flush the current transition, in preparation for the start of a new transition or state
+     * @param cond the condition type, if any, on the transition being finalized
+     * @param condVariableMaybe the variable to test on, if any
+     * @param value the value to compare to, if any
+     */
     private void flushTransition(Condition cond, IntegerState condVariableMaybe, int value) {
-        if(pendingEvent==null) return;
+        if(pendingEvent==null) return; // Nothing to flush
         if(targetTransition==null && effectMaybe==null) return; // empty transition
+        // Define transition and add to current state
         Transition transition = new GenericTransition(targetTransition,
                 effectMaybe,effectVariable,effectArgument,
                 cond, condVariableMaybe,value);
         currentState.addTransition(pendingEvent, transition);
-        System.out.println(currentState.getName()+" # "+pendingEvent+" : "+transition);
+        // Clear all context variables
         effectMaybe = null;
         effectVariable = null;
         targetTransition = null;
     }
 
+    /**
+     * Generic transition that performs its function depending on its
+     * description of effects and conditions (passed as parameters, at
+     * most one of each)
+     * @author ups
+     */
     private static class GenericTransition extends Transition {
 
         private Effect effectMaybe;
