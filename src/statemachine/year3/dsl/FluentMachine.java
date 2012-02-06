@@ -10,6 +10,7 @@ import statemachine.year2.framework.Transition;
 public abstract class FluentMachine extends Machine {
 
     private enum Effect { SET, CHANGE }
+    private enum Condition { EQUAL, GREATER }
     
     private List<State> allStates = new ArrayList<State>();
     private State currentState;
@@ -20,7 +21,7 @@ public abstract class FluentMachine extends Machine {
     
     public FluentMachine() {
         build();
-        flushTransition(null,0);
+        flushTransition(null,null,0);
         allStates.add(currentState);
     }
     
@@ -33,7 +34,7 @@ public abstract class FluentMachine extends Machine {
     
     public FluentMachine state(String name) {
         if(currentState!=null) {
-            flushTransition(null,0);
+            flushTransition(null,null,0);
             allStates.add(currentState);
         }
         currentState = new State(this,name);
@@ -41,7 +42,7 @@ public abstract class FluentMachine extends Machine {
     }
     
     public FluentMachine transition(String event) {
-        if(targetTransition!=null) flushTransition(null,0);
+        if(targetTransition!=null || effectMaybe!=null) flushTransition(null,null,0);
         pendingEvent = event;
         return this;
     }
@@ -67,19 +68,28 @@ public abstract class FluentMachine extends Machine {
     }
     
     public FluentMachine whenStateEquals(IntegerState variable, int value) {
-        flushTransition(variable,value);
+        flushTransition(Condition.EQUAL,variable,value);
+        return this;
+    }
+    
+    public FluentMachine whenStateGreaterThan(IntegerState variable, int value) {
+        flushTransition(Condition.GREATER,variable,value);
         return this;
     }
     
     public FluentMachine otherwise() {
-        flushTransition(null,0);
+        flushTransition(null,null,0);
         return this;
     }
 
-    private void flushTransition(IntegerState condVariableMaybe, int value) {
+    private void flushTransition(Condition cond, IntegerState condVariableMaybe, int value) {
         if(pendingEvent==null) return;
-        Transition transition = new GenericTransition(targetTransition,effectMaybe,effectVariable,effectArgument,condVariableMaybe,value);
+        if(targetTransition==null && effectMaybe==null) return; // empty transition
+        Transition transition = new GenericTransition(targetTransition,
+                effectMaybe,effectVariable,effectArgument,
+                cond, condVariableMaybe,value);
         currentState.addTransition(pendingEvent, transition);
+        System.out.println(currentState.getName()+" # "+pendingEvent+" : "+transition);
         effectMaybe = null;
         effectVariable = null;
         targetTransition = null;
@@ -92,17 +102,25 @@ public abstract class FluentMachine extends Machine {
         private IntegerState effectVariable;
         private int effectArgument;
         private int condValue;
+        private Condition conditionMaybe;
 
-        public GenericTransition(String target, Effect effectMaybe, IntegerState effectVariable, int effectArgument, IntegerState condVariableMaybe, int value) {
+        public GenericTransition(String target, 
+                Effect effectMaybe, IntegerState effectVariable, int effectArgument, 
+                Condition cond, IntegerState condVariableMaybe, int value) {
             super(target);
             this.effectMaybe = effectMaybe; this.effectVariable = effectVariable; this.effectArgument = effectArgument; 
-            this.condVariableMaybe = condVariableMaybe; this.condValue = value;
+            this.conditionMaybe = cond; this.condVariableMaybe = condVariableMaybe; this.condValue = value;
             if(effectMaybe!=null && effectVariable==null) throw new Error("Inconistent effect description");
         }
         
         @Override public boolean isApplicable() {
-            if(condVariableMaybe==null) return true; // no condition
-            return condVariableMaybe.value()==condValue;
+            if(conditionMaybe==null) return true; // no condition
+            if(conditionMaybe==Condition.EQUAL) {
+                return condVariableMaybe.value()==condValue;
+            } else if(conditionMaybe==Condition.GREATER) {
+                return condVariableMaybe.value()>condValue;
+            } else 
+                throw new Error("Illegal condition kind");
         }
         
         @Override public void effect() {
