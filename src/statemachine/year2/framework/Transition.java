@@ -19,4 +19,8 @@ public class Transition {
 
     protected void effect() { ; }
 
+    public String getTarget() {
+        return targetState;
+    }
+
 }
