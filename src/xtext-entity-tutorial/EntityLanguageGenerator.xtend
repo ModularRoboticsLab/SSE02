@@ -25,31 +25,31 @@ class EntityLanguageGenerator implements IGenerator {
 	
 	def compile(Entity e) '''
 	// Auto-generated code
-	ÇIF e.eContainer.eClass().name.equals("Package")È
-	package Çe.eContainer.getFullyQualifiedNameÈ;
-	ÇELSEÈ
+	«IF e.eContainer.eClass().name.equals("Package")»
+	package «e.eContainer.getFullyQualifiedName»;
+	«ELSE»
 	// Default package
-	ÇENDIFÈ
+	«ENDIF»
 	import java.util.List;
 	import java.util.ArrayList;
 	
-	public class Çe.nameÈ ÇIF e.esupertype!=nullÈ extends Çe.esupertype.getFullyQualifiedNameÈ ÇENDIFÈ {
-		ÇFOR f:e.featuresÈ
-			Çf.compileÈ
-		ÇENDFORÈ
+	public class «e.name» «IF e.esupertype!=null» extends «e.esupertype.getFullyQualifiedName» «ENDIF» {
+		«FOR f:e.features»
+			«f.compile»
+		«ENDFOR»
 	}
     '''
     
     def compile(Feature f) '''
-    ÇIF !f.manyÈ
-    private Çf.type.getFullyQualifiedNameÈ Çf.nameÈ;
-    public void setÇf.name.toFirstUpperÈ(Çf.type.getFullyQualifiedNameÈ value) { Çf.nameÈ = value; }
-    public Çf.type.getFullyQualifiedNameÈ getÇf.name.toFirstUpperÈ() { return Çf.nameÈ; }
-    ÇELSEÈ
-    private List<Çf.type.getFullyQualifiedNameÈ> Çf.nameÈ = new ArrayList<Çf.type.getFullyQualifiedNameÈ>();
-    public void addÇf.name.toFirstUpperÈ(Çf.type.getFullyQualifiedNameÈ value) { Çf.nameÈ.add(value); }
-    public List<Çf.type.getFullyQualifiedNameÈ> getÇf.name.toFirstUpperÈ() { return Çf.nameÈ; }
-    ÇENDIFÈ
+    «IF !f.many»
+    private «f.type.getFullyQualifiedName» «f.name»;
+    public void set«f.name.toFirstUpper»(«f.type.getFullyQualifiedName» value) { «f.name» = value; }
+    public «f.type.getFullyQualifiedName» get«f.name.toFirstUpper»() { return «f.name»; }
+    «ELSE»
+    private List<«f.type.getFullyQualifiedName»> «f.name» = new ArrayList<«f.type.getFullyQualifiedName»>();
+    public void add«f.name.toFirstUpper»(«f.type.getFullyQualifiedName» value) { «f.name».add(value); }
+    public List<«f.type.getFullyQualifiedName»> get«f.name.toFirstUpper»() { return «f.name»; }
+    «ENDIF»
     '''
     
 }
