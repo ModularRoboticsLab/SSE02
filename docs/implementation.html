@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <title>SSE02</title>
+  </head>
+  <body>
+    <h1>SSE02: Implementation Guide</h1>
+
+    <h2>Implementation patterns</h2>
+
+    The examples provided in this repository can be used as concrete
+    examples for understanding some of the implementation patterns
+    from Fowler's book on domain-specific languages.
+
+    <h3>Semantic model</h3>
+
+    The semantic model is used in all of the examples, specifically
+    you can find it here:
+    <ul>
+
+      <li><i>Entity-Relation:</i> The semantic model is described by
+	the inner classes <b>EntityType</b> and <b>EntityField</b>,
+	all of which cound be found in the
+	class <a href="https://github.com/ModularRoboticsLab/SSE02/blob/master/src/entityrelation/EntityRelation.java">entityrelation.EntityRelation</a>.
+	The data stored in a concrete entity-relation model is
+	described by an instance of the semantic model and is
+	represented by the inner class <b>Entity</b></li>
+      
+      <li><i>QuickGUI:</i> The semantic model is described by the
+	inner classes <b>QComponent</b>, <b>QFrame</b>, <b>QPanel</b>,
+	and <b>QElement</b>, all of which can be found in the
+	class <a href="https://github.com/ModularRoboticsLab/SSE02/blob/master/src/quickqui/QuickGUI.java">quickgui.QuickGUI</a>.
+	The semantic model is interpreted to provide a concrete
+	instantiation is in the form of a Swing GUI.</li>
+
+      <li><i>Serializer:</i> The semantic model is described by the
+	inner classes <b>PacketModel</b>, <b>FieldModel</b>, and its
+	concrete
+	subclasses <b>IntFieldModel</b>, <b>EnumFieldModel</b>,
+	and <b>BooleanFieldModel</b>, all of which can be found in the
+	class <a href="https://github.com/ModularRoboticsLab/SSE02/blob/master/src/serializer/PacketFormat.java">serializer.PacketFormat</a>.
+	The model is interpreted by
+	the <a href="https://github.com/ModularRoboticsLab/SSE02/blob/master/src/serializer/Packetizer.java">Packetizer</a>
+	class and stored as raw binary data in the concrete subclasses
+	of
+	the <a href="https://github.com/ModularRoboticsLab/SSE02/blob/master/src/serializer/Packet.java">Packet</a>
+	class.</li>
+
+      <li><i>Statemachine:</i> The semantic model is described by the
+      three classes of
+      the <a href="https://github.com/ModularRoboticsLab/SSE02/tree/master/src/statemachine/year2/framework">year2</a>
+      package: <b>Machine</b>, <b>State</b>, and <b>Transition</b>.
+      The model is directly interpreted to give the behavior of the
+      state machine.</li>
+
+    </ul>
+
+  </body>
+</html>
+
