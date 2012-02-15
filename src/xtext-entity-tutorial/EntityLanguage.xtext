@@ -3,27 +3,23 @@ grammar dk.sdu.mmmi.sse02.tutorial2.EntityLanguage with org.eclipse.xtext.common
 generate entityLanguage "http://www.sdu.dk/mmmi/sse02/tutorial2/EntityLanguage"
 
 Domainmodel:
-  elements += AbstractElement*
+  (elements += AbstractElement)*
+;
+
+PackageDeclaration:
+  	'package' name = QualifiedName '{' 
+  		(elements += AbstractElement)*
+  	'}'
 ;
 
 AbstractElement:
-	Package | Type
-;
-
-Package:
-  	'package' name = QualifiedName '{' 
-  		packageElements += Type*
-  	'}'
+	PackageDeclaration | Type | Import
 ;
 
 QualifiedName:
 	ID ('.' ID)*
 ;
 
-
-Type:
-	DataType | Entity | Import
-;
 
 Import:
 	'import' importedNamespace = QualifiedNameWithWildcard
@@ -33,18 +29,22 @@ QualifiedNameWithWildcard:
 	QualifiedName '.*'?
 ;
 
-
-
-Entity:
-	'entity' name = ID ('extends' esupertype = [Entity | QualifiedName])? '{'
-		features += Feature*
-	'}'
-;
-
-Feature:
-	name = ID ':' type = [Type | QualifiedName] (many?='*')? 
+Type:
+	DataType | Entity
 ;
 
 DataType:
 	'datatype' name = ID
+;
+
+Entity:
+	'entity' name = ID 
+	    ('extends' supertype = [Entity | QualifiedName])? 
+	'{'
+		(features += Feature)*
+	'}'
+;
+
+Feature:
+	(many ?= 'many')? name = ID ':' type = [Type | QualifiedName]
 ;
