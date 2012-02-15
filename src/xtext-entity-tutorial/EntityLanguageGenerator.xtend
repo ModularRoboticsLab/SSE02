@@ -13,6 +13,7 @@ import com.google.inject.Inject
 
 import dk.sdu.mmmi.sse02.tutorial2.entityLanguage.Entity
 import dk.sdu.mmmi.sse02.tutorial2.entityLanguage.Feature
+import dk.sdu.mmmi.sse02.tutorial2.entityLanguage.PackageDeclaration
 
 class EntityLanguageGenerator implements IGenerator {
 	
@@ -25,13 +26,14 @@ class EntityLanguageGenerator implements IGenerator {
 	}
 	
 	// Helper function: checks if the container of the entity has a type of the given name
-	def containerIs(Entity e, String typeName) {
-		e.eContainer.eClass().name.equals(typeName)
+	// Package names are not consistent between interfaces and eObjects, so just use the simple name for comparison
+	def containerIs(Entity e, Class<?> type) {
+		e.eContainer.eClass().name.equals(type.simpleName)
 	}
 	
 	def compile(Entity e) '''
 	// Auto-generated code
-	«IF containerIs(e,"Package")»
+	«IF containerIs(e,typeof(PackageDeclaration))»
 	package «e.eContainer.getFullyQualifiedName»;
 	«ELSE»
 	// Default package
