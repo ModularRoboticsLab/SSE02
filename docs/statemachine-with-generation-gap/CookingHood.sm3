@@ -1,0 +1,17 @@
+machine sse02.SuperCookingHood
+MIN_POWER = 1
+MAX_POWER = 6
+Integer power
+external setMotorPower(int)
+external setMaxPower()
+external powerOff()
+event PLUS event MINUS
+state POWER_OFF
+  PLUS => POWER_ON / power = MIN_POWER setMotorPower(power)
+state POWER_ON
+  PLUS[power=MAX_POWER] => POWER_MAX / setMaxPower()
+  PLUS[power<MAX_POWER] / power = power+1 setMotorPower(power)
+  MINUS[power=MIN_POWER] => POWER_OFF / powerOff()
+  MINUS[power>MIN_POWER] / power = power-1 setMotorPower(power)
+state POWER_MAX
+  MINUS => POWER_ON / power = MAX_POWER setMotorPower(power)
