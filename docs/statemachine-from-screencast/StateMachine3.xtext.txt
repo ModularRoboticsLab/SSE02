@@ -1,0 +1,59 @@
+grammar dk.sdu.mmmi.sse02.StateMachine3 with org.eclipse.xtext.common.Terminals
+
+generate stateMachine3 "http://www.sdu.dk/mmmi/sse02/StateMachine3"
+
+StateMachine:
+	'machine' name=QualifiedName (constants+=Constant)* (variables+=Variable)* (events+=Event)* (states+=State)*
+;
+
+QualifiedName:
+	ID ('.' ID)*
+;
+
+Constant:
+	name=ID '=' value=INT
+;
+
+Variable:
+	type=ID name=ID
+;
+
+Event:
+	'event' name=ID
+;
+
+State:
+	'state' name=ID (transitions+=Transition)*
+;
+
+Transition:
+	event=[Event] ('[' condition=Condition ']')? ('=>' target=[State])? ('/' action=Action)?
+;
+
+Condition:
+	variable=[Variable] operator=ComparisonOperator value=Value
+;
+
+ComparisonOperator:
+	'=' | '<' | '>' | '<=' | '>='
+;
+
+Value:
+	constant=[Constant] | number=INT
+;
+
+Action:
+	SetVariable | ChangeVariable
+;
+
+SetVariable:
+	variable=[Variable] '=' value=Value
+;
+
+ChangeVariable:
+	variable=[Variable] '=' left=[Variable] operator=ArithmeticOperator right=Value
+;
+
+ArithmeticOperator:
+	'+' | '/' | '-' | '*'
+;
