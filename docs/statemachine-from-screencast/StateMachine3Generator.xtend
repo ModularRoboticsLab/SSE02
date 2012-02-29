@@ -37,10 +37,10 @@ class StateMachine3Generator implements IGenerator {
 	}
  
  	def compile(StateMachine m) '''
-package ÇpackageName(m)È;
+package «packageName(m)»;
 
-// Çm.nameÈ
-// ÇmÈ
+// «m.name»
+// «m»
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,34 +49,34 @@ import statemachine.year2.framework.Machine;
 import statemachine.year2.framework.State;
 import statemachine.year2.framework.Transition;
 
-public class ÇclassName(m)È extends Machine {
+public class «className(m)» extends Machine {
 
     // Constants
-    ÇFOR c: m.constantsÈ
-    Çc.compileÈ
-    ÇENDFORÈ
+    «FOR c: m.constants»
+    «c.compile»
+    «ENDFOR»
 
     // States
-    private State ÇFOR s: m.statesÈÇs.nameÈ, ÇENDFORÈ__NONE__;
+    private State «FOR s: m.states»«s.name», «ENDFOR»__NONE__;
     
     // Extended state
-    ÇFOR v: m.variablesÈ
-    Çv.compileÈ
-    ÇENDFORÈ
+    «FOR v: m.variables»
+    «v.compile»
+    «ENDFOR»
     
     // State machine definition
-    public ÇclassName(m)È() {
-    	ÇFOR s: m.statesÈ
-    	Çs.compileÈ
-    	ÇENDFORÈ
+    public «className(m)»() {
+    	«FOR s: m.states»
+    	«s.compile»
+    	«ENDFOR»
     }
     
     @Override
     protected List<State> getAllStates() {
 		ArrayList<State> result = new ArrayList<State>();
-		ÇFOR s: m.statesÈ
-		result.add(Çs.nameÈ);
-		ÇENDFORÈ
+		«FOR s: m.states»
+		result.add(«s.name»);
+		«ENDFOR»
         return result;
     }
 
@@ -84,50 +84,50 @@ public class ÇclassName(m)È extends Machine {
 	'''
 	
 	def compile(Constant c) '''
-    private static final int Çc.nameÈ = Çc.valueÈ; //
+    private static final int «c.name» = «c.value»; //
 	'''
 
 	def compile(Variable v) '''
-    private Çv.typeÈ Çv.nameÈ;
-    public Çv.typeÈ getÇv.name.toFirstUpperÈ() { return Çv.nameÈ; }
+    private «v.type» «v.name»;
+    public «v.type» get«v.name.toFirstUpper»() { return «v.name»; }
 	'''
 
 	def compile(State s) '''
-        Çs.nameÈ = new State(this,"Çs.nameÈ");
-        ÇFOR t: s.transitionsÈ
-        Çt.compile(s.name)È
-        ÇENDFORÈ
+        «s.name» = new State(this,"«s.name»");
+        «FOR t: s.transitions»
+        «t.compile(s.name)»
+        «ENDFOR»
 	'''
 
 	def compile(Transition t, String stateName) '''
-        ÇstateNameÈ.addTransition("Çt.event.nameÈ", new Transition(ÇIF t.target==nullÈnullÇELSEÈ"Çt.target.nameÈ"ÇENDIFÈ)
-        ÇIF t.action!=null || t.condition!=nullÈ
+        «stateName».addTransition("«t.event.name»", new Transition(«IF t.target==null»null«ELSE»"«t.target.name»"«ENDIF»)
+        «IF t.action!=null || t.condition!=null»
         {
-        ÇIF t.action!=nullÈ
-        @Override public void effect() { Çt.action.compileÈ; }
-		ÇENDIFÈ
-		ÇIF t.condition!=nullÈ
-		@Override public boolean isApplicable() { Çt.condition.compileÈ; } 
-        ÇENDIFÈ
+        «IF t.action!=null»
+        @Override public void effect() { «t.action.compile»; }
+		«ENDIF»
+		«IF t.condition!=null»
+		@Override public boolean isApplicable() { «t.condition.compile»; } 
+        «ENDIF»
 		}
-		ÇENDIFÈ
+		«ENDIF»
 		);
 	'''
 
 	def dispatch compile(SetVariable a) '''
-	Ça.variable.nameÈ = Ça.value.compileÈ
+	«a.variable.name» = «a.value.compile»
 	'''
 
 	def dispatch compile(ChangeVariable a) '''
-	Ça.variable.nameÈ = Ça.left.nameÈ Ça.operatorÈ Ça.right.compileÈ
+	«a.variable.name» = «a.left.name» «a.operator» «a.right.compile»
 	'''
 
 	def compile(Value v) '''
-	ÇIF v.constant==nullÈÇv.numberÈÇELSEÈÇv.constant.nameÈÇENDIFÈ
+	«IF v.constant==null»«v.number»«ELSE»«v.constant.name»«ENDIF»
 	'''
 	
 	def compile(Condition c) '''
-	return Çc.variable.nameÈ ÇconvertOperator(c.operator)È Çc.value.compileÈ
+	return «c.variable.name» «convertOperator(c.operator)» «c.value.compile»
 	'''
 	
 	def convertOperator(String op) {

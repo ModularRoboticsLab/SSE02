@@ -39,8 +39,8 @@ class StateMachine3Generator implements IGenerator {
 	}
  
  	def compile(StateMachine m) '''
-Çval hasExternals = m.externals.size>0È
-package ÇpackageName(m)È;
+«val hasExternals = m.externals.size>0»
+package «packageName(m)»;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,43 +49,43 @@ import statemachine.year2.framework.Machine;
 import statemachine.year2.framework.State;
 import statemachine.year2.framework.Transition;
 
-public class ÇclassName(m)È extends Machine {
+public class «className(m)» extends Machine {
 
-	ÇIF hasExternalsÈ
+	«IF hasExternals»
 	// External functions
 	interface Requires {
-	ÇFOR e:m.externalsÈ
-	Çe.compileÈ
-	ÇENDFORÈ
+	«FOR e:m.externals»
+	«e.compile»
+	«ENDFOR»
 	}
-	ÇENDIFÈ
+	«ENDIF»
 
     // Constants
-    ÇFOR c: m.constantsÈ
-    Çc.compileÈ
-    ÇENDFORÈ
+    «FOR c: m.constants»
+    «c.compile»
+    «ENDFOR»
 
     // States
-    private State ÇFOR s: m.statesÈÇs.nameÈ, ÇENDFORÈ__NONE__;
+    private State «FOR s: m.states»«s.name», «ENDFOR»__NONE__;
     
     // Extended state
-    ÇFOR v: m.variablesÈ
-    Çv.compileÈ
-    ÇENDFORÈ
+    «FOR v: m.variables»
+    «v.compile»
+    «ENDFOR»
     
     // State machine definition
-    public ÇclassName(m)È(ÇIF hasExternalsÈfinal Requires requiredExternalFunctionsÇENDIFÈ) {
-    	ÇFOR s: m.statesÈ
-    	Çs.compileÈ
-    	ÇENDFORÈ
+    public «className(m)»(«IF hasExternals»final Requires requiredExternalFunctions«ENDIF») {
+    	«FOR s: m.states»
+    	«s.compile»
+    	«ENDFOR»
     }
     
     @Override
     protected List<State> getAllStates() {
 		ArrayList<State> result = new ArrayList<State>();
-		ÇFOR s: m.statesÈ
-		result.add(Çs.nameÈ);
-		ÇENDFORÈ
+		«FOR s: m.states»
+		result.add(«s.name»);
+		«ENDFOR»
         return result;
     }
 
@@ -93,59 +93,59 @@ public class ÇclassName(m)È extends Machine {
 	'''
 	
 	def compile(Constant c) '''
-    private static final int Çc.nameÈ = Çc.valueÈ; //
+    private static final int «c.name» = «c.value»; //
 	'''
 
 	def compile(Variable v) '''
-    private Çv.typeÈ Çv.nameÈ;
-    public Çv.typeÈ getÇv.name.toFirstUpperÈ() { return Çv.nameÈ; }
+    private «v.type» «v.name»;
+    public «v.type» get«v.name.toFirstUpper»() { return «v.name»; }
 	'''
 
 	private int counter
 	def compile(External e) '''
-			public void Çe.nameÈ(ÇIF e.types!=nullÈÇFOR t:e.types SEPARATOR ','ÈÇtÈ pÇcounter=counter+1ÈÇENDFORÈÇENDIFÈ);
+			public void «e.name»(«IF e.types!=null»«FOR t:e.types SEPARATOR ','»«t» p«counter=counter+1»«ENDFOR»«ENDIF»);
 	'''
 
 	def compile(State s) '''
-        Çs.nameÈ = new State(this,"Çs.nameÈ");
-        ÇFOR t: s.transitionsÈ
-        Çt.compile(s.name)È
-        ÇENDFORÈ
+        «s.name» = new State(this,"«s.name»");
+        «FOR t: s.transitions»
+        «t.compile(s.name)»
+        «ENDFOR»
 	'''
 
 	def compile(Transition t, String stateName) '''
-        ÇstateNameÈ.addTransition("Çt.event.nameÈ", new Transition(ÇIF t.target==nullÈnullÇELSEÈ"Çt.target.nameÈ"ÇENDIFÈ)
-        ÇIF t.actions!=null || t.condition!=nullÈ
+        «stateName».addTransition("«t.event.name»", new Transition(«IF t.target==null»null«ELSE»"«t.target.name»"«ENDIF»)
+        «IF t.actions!=null || t.condition!=null»
         {
-        ÇIF t.actions!=nullÈ
-        @Override public void effect() { ÇFOR a:t.actions SEPARATOR ';'ÈÇa.compileÈÇENDFORÈ; }
-		ÇENDIFÈ
-		ÇIF t.condition!=nullÈ
-		@Override public boolean isApplicable() { Çt.condition.compileÈ; } 
-        ÇENDIFÈ
+        «IF t.actions!=null»
+        @Override public void effect() { «FOR a:t.actions SEPARATOR ';'»«a.compile»«ENDFOR»; }
+		«ENDIF»
+		«IF t.condition!=null»
+		@Override public boolean isApplicable() { «t.condition.compile»; } 
+        «ENDIF»
 		}
-		ÇENDIFÈ
+		«ENDIF»
 		);
 	'''
 
 	def dispatch compile(SetVariable a) '''
-	Ça.variable.nameÈ = Ça.value.compileÈ
+	«a.variable.name» = «a.value.compile»
 	'''
 
 	def dispatch compile(ChangeVariable a) '''
-	Ça.variable.nameÈ = Ça.left.nameÈ Ça.operatorÈ Ça.right.compileÈ
+	«a.variable.name» = «a.left.name» «a.operator» «a.right.compile»
 	'''
 
 	def dispatch compile(ExternalCall c) '''
-	requiredExternalFunctions.Çc.function.nameÈ(ÇFOR v:c.arguments SEPARATOR ','ÈÇv.nameÈÇENDFORÈ)
+	requiredExternalFunctions.«c.function.name»(«FOR v:c.arguments SEPARATOR ','»«v.name»«ENDFOR»)
 	'''
 
 	def compile(Value v) '''
-	ÇIF v.constant==nullÈÇv.numberÈÇELSEÈÇv.constant.nameÈÇENDIFÈ
+	«IF v.constant==null»«v.number»«ELSE»«v.constant.name»«ENDIF»
 	'''
 	
 	def compile(Condition c) '''
-	return Çc.variable.nameÈ ÇconvertOperator(c.operator)È Çc.value.compileÈ
+	return «c.variable.name» «convertOperator(c.operator)» «c.value.compile»
 	'''
 	
 	def convertOperator(String op) {
