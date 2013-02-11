@@ -29,6 +29,7 @@ either expressed or implied, of the University of Southern Denmark.
 
 package examples.entityrelation;
 
+import entityrelation.Entity;
 import entityrelation.EntityRelation;
 
 /**
@@ -60,14 +61,14 @@ public class University extends EntityRelation {
      * Use semantic model to create small system, query for data
      */
     void main() {
-        Entity ulrik = new Entity("Person","Ulrik",39);
-        Entity sse02 = new Entity("Course","SSE02",EMPTY,ulrik);
-        Entity emb4 = new Entity("Course","EMB4/DES",EMPTY,ulrik);
+        Entity ulrik = new Entity(this, "Person","Ulrik",39);
+        Entity sse02 = new Entity(this, "Course","SSE02",EMPTY,ulrik);
+        Entity emb4 = new Entity(this, "Course","EMB4/DES",EMPTY,ulrik);
         ulrik.become("Teacher", multi(sse02));
         ulrik.associate("teaches", emb4);
-        new Entity("Student","John",23,9123456,EMPTY).associate("follows",sse02);
-        new Entity("Student","Doe",23,234234,EMPTY).associate("follows",sse02);
-        new Entity("Student","Jane",23,8347543,EMPTY).associate("follows",emb4);
+        new Entity(this, "Student","John",23,9123456,EMPTY).associate("follows",sse02);
+        new Entity(this, "Student","Doe",23,234234,EMPTY).associate("follows",sse02);
+        new Entity(this, "Student","Jane",23,8347543,EMPTY).associate("follows",emb4);
         System.out.println(ulrik.getMulti("teaches").getMulti("enrolled"));
     }
 
