@@ -116,6 +116,7 @@ public class DriverGUI extends Driver implements ActionListener {
         JLabel rightLabel = (JLabel)gui.getComponent("right");
         leftLabel.setText("Left: stopped");
         rightLabel.setText("Right: stopped");
+        System.out.println("Robot stopped");
     }
 
     /**

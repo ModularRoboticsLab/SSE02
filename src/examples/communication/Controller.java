@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import serializer.Communicator;
 import serializer.IPacketHandler;
 import serializer.IncomingPacket;
+import serializer.Packet;
 import serializer.PacketFormat;
 import serializer.Packetizer;
 
@@ -82,10 +83,26 @@ public class Controller implements IPacketHandler {
         Communicator comm = new Communicator(format,getCommunicationChannel());
         comm.addPacketHandler(this);
         Packetizer ptz = comm.getPacketizer();
+        System.out.println("Test 1: sending packets...");
         comm.send(ptz.makePacket("drive",100,100));
         comm.send(ptz.makePacket("stop"));
+        System.out.println("Waiting for ack..."); System.out.flush();
         while(!ptz.is(receive(),"ack_stop")) { System.out.println("Waiting"); }
         comm.send(ptz.makePacket("drive",50,50));
+        System.out.println("Test 2: reading sensors..."); System.out.flush();
+        while(true) {
+        	comm.send(ptz.makePacket("readBumpSensor", "CENTER"));
+        	IncomingPacket in = receive();
+        	if(ptz.is(in,"bumpSensorValue")) {
+        		boolean isSet = in.get_boolean("value");
+        		System.out.println(isSet ? "bump!" : "nothing");
+        	}
+        	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new Error("Interrupted");
+			}
+        }
     }
 
     /**

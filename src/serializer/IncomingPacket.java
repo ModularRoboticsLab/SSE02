@@ -70,6 +70,15 @@ public class IncomingPacket extends Packet {
     public int get_uint16(String fieldName) {
         return ((int)buffer.getShort(HEADER_SIZE+model.fieldOffset(fieldName)))&0xffff;
     }
+    
+    /**
+     * Get a boolean value of the given name (must be described by the packet format)
+     * @param fieldName the name identifying the data segment
+     * @return the boolean stored at that data segment
+     */
+    public boolean get_boolean(String fieldName) {
+    	return buffer.get(HEADER_SIZE+model.fieldOffset(fieldName))!=0;
+    }
 
     /**
      * The textual representation of the enum value of the given name (must be described by packet format)

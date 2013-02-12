@@ -40,9 +40,9 @@ import serializer.PacketFormat;
 import serializer.Packetizer;
 
 /**
- * A simple textual example of a robot driver (server) that prints the actions of the robot to the screen,
- * and responds correctly to a stop invocation by sending an acknowledge.  The specific operations are
- * separated into methods template-class style.
+ * A simple textual example of a robot driver (server, the simulated robot) that prints the actions of 
+ * the robot to the screen, and responds correctly to a stop invocation by sending an acknowledge.  The 
+ * specific operations are separated into methods template-class style.
  * @author ups
  */
 public class Driver implements IPacketHandler {
@@ -85,7 +85,7 @@ public class Driver implements IPacketHandler {
                 comm.send(packetizer.makePacket("ack_stop"));
             } else if(packetizer.is(packet,"readBumpSensor")) {
                 String sensor = packet.get_enum("sensor");
-                comm.send(packetizer.makePacket("bumpSensorValue", sensor));
+                comm.send(packetizer.makePacket("bumpSensorValue", readBumpSensor(sensor)));
             } else throw new Error("Should not happen");
         } catch(IOException exn) {
             throw new Error("IO Exception:"+exn);
