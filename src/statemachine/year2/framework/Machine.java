@@ -53,6 +53,9 @@ public abstract class Machine extends Observable implements IMachine {
      */
     private Map<String,State> states = new HashMap<String,State>();
     
+    /**
+     * Initialize the state machine based on the getAllStates hook method
+     */
     public void initialize() {
         List<State> allStates = getAllStates();
         for(State state: allStates)
@@ -62,17 +65,26 @@ public abstract class Machine extends Observable implements IMachine {
         notifyObservers();
     }
     
+    /**
+     * Set the current active state
+     * @param stateid the ID of the active state
+     */
     public void setState(String stateid) {
         State state = states.get(stateid);
         if(state==null) throw new Error("Illegal state identifier: "+stateid);
         currentState = state;
     }
 
+    /**
+     * Get the name of the currently active state
+     */
     public String getStateName() {
         return currentState.toString();
     }
 
-    
+    /**
+     * Process an incoming event based on the current state
+     */
     public void processEvent(Event event) {
         if(currentState==null) throw new Error("State machine not initialized");
         currentState.processEvent(event);

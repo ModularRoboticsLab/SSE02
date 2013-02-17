@@ -37,12 +37,23 @@ package statemachine.year2.framework;
  */
 public class Transition {
 
+	/**
+	 * The target state of the transition
+	 */
     private String targetState;
 
+    /**
+     * Create a transition that targets the given state
+     * @param targetState the target state
+     */
     public Transition(String targetState) {
         this.targetState = targetState;
     }
     
+    /**
+     * The action of the state: perform effect (as defined by hook method), returning the target state
+     * @return the target state
+     */
     public String action() {
         effect();
         return targetState;
@@ -50,7 +61,7 @@ public class Transition {
 
     /**
      * Provide name of target state that should be transitioned to
-     * @return
+     * @return name of the target state
      */
     public String getTarget() {
         return targetState;

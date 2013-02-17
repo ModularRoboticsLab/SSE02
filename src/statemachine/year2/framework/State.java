@@ -59,6 +59,11 @@ public class State {
      */
     private Map<String,List<Transition>> transitions = new HashMap<String,List<Transition>>();
 
+    /**
+     * Instantiate state for a given state machine
+     * @param machine the state machine to which the state belonds
+     * @param name the name of the state
+     */
     public State(Machine machine, String name) {
         this.machine = machine;
         this.name = name;
@@ -93,14 +98,25 @@ public class State {
             }
     }
     
+    /**
+     * Get the machine to which this state belones
+     * @return the machine
+     */
     public Machine machine() {
         return machine;
     }
 
+    /**
+     * Get the name of the state
+     */
     public String toString() {
         return this.getName();
     }
 
+    /**
+     * Get the name of the state
+     * @return the name
+     */
     public String getName() {
         return name;
     }
