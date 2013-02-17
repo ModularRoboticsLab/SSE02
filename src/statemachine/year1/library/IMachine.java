@@ -37,11 +37,23 @@ import java.util.Observer;
  */
 public interface IMachine {
 
+	/**
+	 * Initialize the statemachine (before sending events)
+	 */
     public void initialize();
-
+    /**
+     * Process a single event
+     * @param event a single event, delivered to the state machine
+     */
     public void processEvent(Event event);
-
+    /**
+     * Add an observer to the state machine, notified whenever the state changes
+     * @param observer the statemachine observer
+     */
     public void addObserver(Observer observer);
-
+    /**
+     * Get the name of the currently active state
+     * @return name of currently active state
+     */
     public String getStateName();
 }

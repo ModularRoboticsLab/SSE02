@@ -36,18 +36,36 @@ package statemachine.year1.library;
  */
 public abstract class State {
 
+	/**
+	 * The state machine to which this state belongs
+	 */
     private IMachine machine;
 
+    /**
+     * Create a state belonging to the given state machine
+     * @param machine the state machine to which this state belongs
+     */
     public State(IMachine machine) {
         this.machine = machine;
     }
 
+    /**
+     * Process the given event according to the state
+     * @param event an incoming event
+     */
     public abstract void processEvent(Event event);
     
+    /**
+     * Get the statemachine to which this state belongs
+     * @return
+     */
     public IMachine machine() {
         return machine;
     }
 
+    /**
+     * Get a representation of the name of the currently active state
+     */
     public String toString() {
         String name = this.getClass().getSimpleName();
         if(name==null) name = this.getClass().getName();

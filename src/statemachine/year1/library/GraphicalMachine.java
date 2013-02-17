@@ -41,11 +41,25 @@ import quickqui.QuickGUI;
  * @author ups
  */
 public abstract class GraphicalMachine implements ActionListener, Observer {
-
+	/**
+	 * The GUI of the machine
+	 */
     protected QuickGUI gui;
+    /**
+     * The state machine being driven by the GUI
+     */
     protected IMachine machine;
+    /**
+     * The action name that triggers initialize on the state machine
+     */
     private String powerOnCommand;
     
+    /**
+     * Create the graphical state machine
+     * @param model the GUI
+     * @param machine the statemachine
+     * @param powerOnCommand the command tha triggers state machine initialization
+     */
     public GraphicalMachine(QuickGUI.GUIModel model, IMachine machine, String powerOnCommand) {
         this.gui = new QuickGUI(model,this);
         this.machine = machine;

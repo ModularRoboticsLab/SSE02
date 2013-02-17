@@ -38,22 +38,38 @@ import java.util.Observable;
  */
 public abstract class Machine extends Observable implements IMachine {
     
+	/**
+	 * The currently active state
+	 */
     private State currentState;
     
+    /**
+     * Initialize the state machine
+     */
     public void initialize() {
         setState(getInitialState());
         setChanged();
         notifyObservers();
     }
     
+    /**
+     * Directly set the current state of the state machine
+     * @param state the future current state
+     */
     public void setState(State state) {
         currentState = state;
     }
 
+    /**
+     * Get the name of the currently active state
+     */
     public String getStateName() {
         return currentState.toString();
     }
 
+    /**
+     * Process an incoming event, triggering appropriate transitions depending on the current state
+     */
     public void processEvent(Event event) {
         if(currentState==null) throw new Error("State machine not initialized");
         currentState.processEvent(event);
@@ -61,6 +77,10 @@ public abstract class Machine extends Observable implements IMachine {
         notifyObservers();
     }
     
+    /**
+     * Get the initial state of the state machine
+     * @return the initial state of the state machine
+     */
     protected abstract State getInitialState();
 
 }
