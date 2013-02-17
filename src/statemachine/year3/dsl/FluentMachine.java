@@ -82,7 +82,7 @@ public abstract class FluentMachine extends Machine {
      */
     private int effectArgument;
     /**
-     *  The mutable state acted upon by the effet on the current transition, if any
+     *  The mutable state acted upon by the effect on the current transition, if any
      */
     private IntegerState effectVariable;
     
@@ -196,21 +196,41 @@ public abstract class FluentMachine extends Machine {
      * Flush the current transition, in preparation for the start of a new transition or state
      * @param cond the condition type, if any, on the transition being finalized
      * @param condVariableMaybe the variable to test on, if any
-     * @param value the value to compare to, if any
+     * @param condValue the value to compare to, if any
      */
-    private void flushTransition(Condition cond, IntegerState condVariableMaybe, int value) {
+    private void flushTransition(Condition cond, IntegerState condVariableMaybe, int condValue) {
         if(pendingEvent==null) return; // Nothing to flush
         if(targetTransition==null && effectMaybe==null) return; // empty transition
         // Define transition and add to current state
-        Transition transition = new GenericTransition(targetTransition,
-                effectMaybe,effectVariable,effectArgument,
-                cond, condVariableMaybe,value);
+        Transition transition = 
+        		createTransitionHook(targetTransition, 
+        				effectMaybe, effectVariable, effectArgument, 
+        				cond, condVariableMaybe, condValue);
         currentState.addTransition(pendingEvent, transition);
         // Clear all context variables
         effectMaybe = null;
         effectVariable = null;
         targetTransition = null;
     }
+
+    /**
+     * Hook method allowing the creation of a transition to be changed, as specified by the arguments.
+     * @param target the target of the transition
+     * @param effect the effect of the transition, if any
+     * @param effectVar the variable that the transition has an effect on, if any
+     * @param effectArg the argument of the effect, if any
+     * @param cond the condition of the transition, if any
+     * @param condVariableMaybe the variable used in the condition, if any
+     * @param condValue the value used in the condition, if any
+     * @return a transition object created according to the specification.
+     */
+	protected GenericTransition createTransitionHook(String target, 
+			Effect effect, IntegerState effectVar, int effectArg, 
+			Condition cond, IntegerState condVariableMaybe, int condValue) {
+		return new GenericTransition(target,
+                effect,effectVar,effectArg,
+                cond, condVariableMaybe,condValue);
+	}
 
     /**
      * Generic transition that performs its function depending on its
@@ -252,14 +272,14 @@ public abstract class FluentMachine extends Machine {
          * @param effectArgument The argument of the effect (e.g., how much is added) if any, null otherwise
          * @param cond The condition type on the transition, if any
          * @param condVariableMaybe Condition variable on the transition, if any, null otherwise
-         * @param value The value which the condition compares to (e.g., is equal to?) if any
+         * @param condValue The value which the condition compares to (e.g., is equal to?) if any
          */
         public GenericTransition(String target, 
                 Effect effectMaybe, IntegerState effectVariable, int effectArgument, 
-                Condition cond, IntegerState condVariableMaybe, int value) {
+                Condition cond, IntegerState condVariableMaybe, int condValue) {
             super(target);
             this.effectMaybe = effectMaybe; this.effectVariable = effectVariable; this.effectArgument = effectArgument; 
-            this.conditionMaybe = cond; this.condVariableMaybe = condVariableMaybe; this.condValue = value;
+            this.conditionMaybe = cond; this.condVariableMaybe = condVariableMaybe; this.condValue = condValue;
             if(effectMaybe!=null && effectVariable==null) throw new Error("Inconistent effect description");
         }
         
