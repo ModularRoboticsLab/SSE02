@@ -38,28 +38,52 @@ import statemachine.year2.framework.Transition;
 
 /**
  * Abstract class providing a fluent interface for defining a state machine using
- * the generic statemachine framework (year2).  Acts as a builder.
+ * the generic statemachine framework (year2).  Acts as a builder but also allows the
+ * model to be directly interpreted to run the state machine.
  * @author ups
  */
 public abstract class FluentMachine extends Machine {
 
     // Enums defining the types of effects and conditions that can be used
+	
+	/**
+	 * Effect of a state: set an extended state variable, or change to a different state
+	 */
     private enum Effect { SET, CHANGE }
+    /**
+     * Condition on a state: variable equal to the given value or greater than the given value
+     */
     private enum Condition { EQUAL, GREATER }
+
+    // Accumulating variables for the builder
     
-    // The complete list of all states (first is assumed to be initial)
+    /**
+     *  The complete list of all states (first is assumed to be initial)
+     */
     private List<State> allStates = new ArrayList<State>();
-    // The current state being built
+    /**
+     *  The current state being built
+     */
     private State currentState;
-    // The current event that transitions are being defined for
+    /**
+     *  The current event that transitions are being defined for
+     */
     private String pendingEvent;
-    // The target of the current transition
+    /**
+     *  The target of the current transition
+     */
     private String targetTransition;
-    // The effect of the current transition, if any
+    /**
+     *  The effect of the current transition, if any
+     */
     private Effect effectMaybe;
-    // The constant argument to the effect on the current transition, if any
+    /**
+     *  The constant argument to the effect on the current transition, if any
+     */
     private int effectArgument;
-    // The mutable state acted upon by the effet on the current transition, if any
+    /**
+     *  The mutable state acted upon by the effet on the current transition, if any
+     */
     private IntegerState effectVariable;
     
     /**
@@ -73,6 +97,9 @@ public abstract class FluentMachine extends Machine {
         allStates.add(currentState);
     }
     
+    /**
+     * Get list of all states in the state machine
+     */
     @Override
     protected List<State> getAllStates() {
         return allStates;
@@ -192,14 +219,41 @@ public abstract class FluentMachine extends Machine {
      * @author ups
      */
     private static class GenericTransition extends Transition {
-
+    	/**
+    	 * The effect of the transition, if any, null otherwise
+    	 */
         private Effect effectMaybe;
-        private IntegerState condVariableMaybe;
+        /**
+         * Variable on which the transition has an effect, if any, null otherwise
+         */
         private IntegerState effectVariable;
+        /**
+         * The argument of the effect (e.g., how much is added) if any, null otherwise
+         */
         private int effectArgument;
-        private int condValue;
+        /**
+         * The condition type on the transition, if any
+         */
         private Condition conditionMaybe;
+        /**
+         * Condition variable on the transition, if any, null otherwise
+         */
+        private IntegerState condVariableMaybe;
+        /**
+         * The value which the condition compares to (e.g., is equal to?) if any
+         */
+        private int condValue;
 
+        /**
+         * Create a generic transition specified according to the arguments.
+         * @param target The target state
+         * @param effectMaybe The effect of the transition, if any, null otherwise
+         * @param effectVariable Variable on which the transition has an effect, if any, null otherwise
+         * @param effectArgument The argument of the effect (e.g., how much is added) if any, null otherwise
+         * @param cond The condition type on the transition, if any
+         * @param condVariableMaybe Condition variable on the transition, if any, null otherwise
+         * @param value The value which the condition compares to (e.g., is equal to?) if any
+         */
         public GenericTransition(String target, 
                 Effect effectMaybe, IntegerState effectVariable, int effectArgument, 
                 Condition cond, IntegerState condVariableMaybe, int value) {
@@ -209,6 +263,9 @@ public abstract class FluentMachine extends Machine {
             if(effectMaybe!=null && effectVariable==null) throw new Error("Inconistent effect description");
         }
         
+        /**
+         * True is the transition is applicable in the current state
+         */
         @Override public boolean isApplicable() {
             if(conditionMaybe==null) return true; // no condition
             if(conditionMaybe==Condition.EQUAL) {
@@ -219,6 +276,9 @@ public abstract class FluentMachine extends Machine {
                 throw new Error("Illegal condition kind");
         }
         
+        /**
+         * Perform the effect of the transition
+         */
         @Override public void effect() {
             if(effectMaybe==null) return; // no effect
             if(effectMaybe==Effect.SET)
@@ -228,7 +288,10 @@ public abstract class FluentMachine extends Machine {
             else
                 throw new Error("Uknown effect");
         }
-        
+
+        /**
+         * String representation (for debugging)
+         */
         public String toString() {
             return "T("+super.getTarget()+"): "+effectMaybe + "@" + effectVariable + "," + effectArgument;
         }
