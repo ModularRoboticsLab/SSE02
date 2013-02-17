@@ -30,19 +30,50 @@ either expressed or implied, of the University of Southern Denmark.
 package statemachine.year3.dsl;
 
 /**
- * A simple mutable integer state
+ * A simple mutable integer state, with a symbolic name
  * @author ups
  */
 public class IntegerState {
-
+	
+	/**
+	 * The value of the state
+	 */
     private int value;
     
+    /**
+     * The symbolic name of the state
+     */
+    private String name;
+    
+    /**
+     * Create a new state with the given symbolic name
+     * @param name the symbolic name
+     */
+    public IntegerState(String name) {
+    	this.name = name;
+    }
+    
+    /**
+     * Get the value of the state
+     * @return the value
+     */
     public int value() {
         return value;
     }
 
+    /**
+     * Set the value of the state
+     * @param x the new value
+     */
     public void set(int x) {
         value = x;
     }
 
+    /**
+     * Get the symbolic name of the state
+     * @return the symbolic name of the state
+     */
+    public String getName() {
+    	return name;
+    }
 }

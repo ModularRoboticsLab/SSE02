@@ -45,7 +45,7 @@ public class CookingHoodMachine extends FluentMachine {
     // State machine definition
     @Override
     protected void build() {
-        power = new IntegerState();
+        power = new IntegerState("power");
         state("POWER_OFF").
           transition("PLUS").to("POWER_ON").setState(power,MIN_POWER).
         state("POWER_ON").

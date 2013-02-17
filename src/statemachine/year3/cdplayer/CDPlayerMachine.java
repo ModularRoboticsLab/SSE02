@@ -41,7 +41,7 @@ public class CDPlayerMachine extends FluentMachine {
     // State machine definition
     @Override
     protected void build() {
-        track = new IntegerState();
+        track = new IntegerState("track");
         state("STOP").
           transition("PLAY").to("PLAYING").setState(track,1).whenStateEquals(track, 0).
                              to("PLAYING").otherwise().
