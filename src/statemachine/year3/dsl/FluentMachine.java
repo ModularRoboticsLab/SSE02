@@ -49,11 +49,11 @@ public abstract class FluentMachine extends Machine {
 	/**
 	 * Effect of a state: set an extended state variable, or change to a different state
 	 */
-    private enum Effect { SET, CHANGE }
+    public enum Effect { SET, CHANGE }
     /**
      * Condition on a state: variable equal to the given value or greater than the given value
      */
-    private enum Condition { EQUAL, GREATER }
+    public enum Condition { EQUAL, GREATER }
 
     // Accumulating variables for the builder
     
@@ -224,7 +224,7 @@ public abstract class FluentMachine extends Machine {
      * @param condValue the value used in the condition, if any
      * @return a transition object created according to the specification.
      */
-	protected GenericTransition createTransitionHook(String target, 
+	protected Transition createTransitionHook(String target, 
 			Effect effect, IntegerState effectVar, int effectArg, 
 			Condition cond, IntegerState condVariableMaybe, int condValue) {
 		return new GenericTransition(target,
