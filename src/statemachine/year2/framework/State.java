@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import statemachine.year1.library.Event;
 
@@ -61,7 +62,7 @@ public class State {
 
     /**
      * Instantiate state for a given state machine
-     * @param machine the state machine to which the state belonds
+     * @param machine the state machine to which the state belongs
      * @param name the name of the state
      */
     public State(Machine machine, String name) {
@@ -99,7 +100,7 @@ public class State {
     }
     
     /**
-     * Get the machine to which this state belones
+     * Get the machine to which this state belongs
      * @return the machine
      */
     public Machine machine() {
@@ -119,5 +120,19 @@ public class State {
      */
     public String getName() {
         return name;
+    }
+    
+    /**
+     * Get the set of events that can be handled in this state
+     */
+    public Set<String> getApplicableEvents() {
+    	return transitions.keySet();
+    }
+    
+    /**
+     * Get the set of transitions that correspond to a given event ID
+     */
+    public List<Transition> getTransitionsForEvent(String event) {
+    	return transitions.get(event);
     }
 }
