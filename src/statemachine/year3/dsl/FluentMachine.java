@@ -85,23 +85,37 @@ public abstract class FluentMachine extends Machine {
      *  The mutable state acted upon by the effect on the current transition, if any
      */
     private IntegerState effectVariable;
-    
+    /**
+     * A factory object for creating transition instances, overwrite default to control transition creation
+     */
+	private TransitionFactory factory = new TransitionFactory();
+	/**
+	 * Flag indicating whether the model has been built
+	 */
+	private boolean modelIsBuilt = false;
+	
     /**
      * Build a machine using the fluent interface.  First call build (overridden in subclass),
      * then ensure that all transitions associated with the current state have been defined,
      * and last add the state as the last in the list of states
      */
     public FluentMachine() {
+    }
+    
+    private void buildMachine() {
+    	if(modelIsBuilt) return;
         build();
         flushTransition(null,null,0);
         allStates.add(currentState);
+        modelIsBuilt = true;
     }
     
     /**
      * Get list of all states in the state machine
      */
     @Override
-    protected List<State> getAllStates() {
+	public List<State> getAllStates() {
+    	buildMachine();
         return allStates;
     }
 
@@ -203,7 +217,7 @@ public abstract class FluentMachine extends Machine {
         if(targetTransition==null && effectMaybe==null) return; // empty transition
         // Define transition and add to current state
         Transition transition = 
-        		createTransitionHook(targetTransition, 
+        		factory.createTransitionHook(targetTransition, 
         				effectMaybe, effectVariable, effectArgument, 
         				cond, condVariableMaybe, condValue);
         currentState.addTransition(pendingEvent, transition);
@@ -214,106 +228,31 @@ public abstract class FluentMachine extends Machine {
     }
 
     /**
-     * Hook method allowing the creation of a transition to be changed, as specified by the arguments.
-     * @param target the target of the transition
-     * @param effect the effect of the transition, if any
-     * @param effectVar the variable that the transition has an effect on, if any
-     * @param effectArg the argument of the effect, if any
-     * @param cond the condition of the transition, if any
-     * @param condVariableMaybe the variable used in the condition, if any
-     * @param condValue the value used in the condition, if any
-     * @return a transition object created according to the specification.
+     * Change the factory used by the builder to create transition objects
+     * @param factory the new transition factory
      */
-	protected Transition createTransitionHook(String target, 
-			Effect effect, IntegerState effectVar, int effectArg, 
-			Condition cond, IntegerState condVariableMaybe, int condValue) {
-		return new GenericTransition(target,
-                effect,effectVar,effectArg,
-                cond, condVariableMaybe,condValue);
-	}
-
-    /**
-     * Generic transition that performs its function depending on its
-     * description of effects and conditions (passed as parameters, at
-     * most one of each)
-     * @author ups
-     */
-    private static class GenericTransition extends Transition {
+    public void setTransitionFactory(TransitionFactory factory) {
+    	this.factory = factory;
+    }
+    
+    public static class TransitionFactory {
     	/**
-    	 * The effect of the transition, if any, null otherwise
+    	 * Hook method allowing the creation of a transition to be changed, as specified by the arguments.
+    	 * @param target the target of the transition
+    	 * @param effect the effect of the transition, if any
+    	 * @param effectVar the variable that the transition has an effect on, if any
+    	 * @param effectArg the argument of the effect, if any
+    	 * @param cond the condition of the transition, if any
+    	 * @param condVariableMaybe the variable used in the condition, if any
+    	 * @param condValue the value used in the condition, if any
+    	 * @return a transition object created according to the specification.
     	 */
-        private Effect effectMaybe;
-        /**
-         * Variable on which the transition has an effect, if any, null otherwise
-         */
-        private IntegerState effectVariable;
-        /**
-         * The argument of the effect (e.g., how much is added) if any, null otherwise
-         */
-        private int effectArgument;
-        /**
-         * The condition type on the transition, if any
-         */
-        private Condition conditionMaybe;
-        /**
-         * Condition variable on the transition, if any, null otherwise
-         */
-        private IntegerState condVariableMaybe;
-        /**
-         * The value which the condition compares to (e.g., is equal to?) if any
-         */
-        private int condValue;
-
-        /**
-         * Create a generic transition specified according to the arguments.
-         * @param target The target state
-         * @param effectMaybe The effect of the transition, if any, null otherwise
-         * @param effectVariable Variable on which the transition has an effect, if any, null otherwise
-         * @param effectArgument The argument of the effect (e.g., how much is added) if any, null otherwise
-         * @param cond The condition type on the transition, if any
-         * @param condVariableMaybe Condition variable on the transition, if any, null otherwise
-         * @param condValue The value which the condition compares to (e.g., is equal to?) if any
-         */
-        public GenericTransition(String target, 
-                Effect effectMaybe, IntegerState effectVariable, int effectArgument, 
-                Condition cond, IntegerState condVariableMaybe, int condValue) {
-            super(target);
-            this.effectMaybe = effectMaybe; this.effectVariable = effectVariable; this.effectArgument = effectArgument; 
-            this.conditionMaybe = cond; this.condVariableMaybe = condVariableMaybe; this.condValue = condValue;
-            if(effectMaybe!=null && effectVariable==null) throw new Error("Inconistent effect description");
-        }
-        
-        /**
-         * True is the transition is applicable in the current state
-         */
-        @Override public boolean isApplicable() {
-            if(conditionMaybe==null) return true; // no condition
-            if(conditionMaybe==Condition.EQUAL) {
-                return condVariableMaybe.value()==condValue;
-            } else if(conditionMaybe==Condition.GREATER) {
-                return condVariableMaybe.value()>condValue;
-            } else 
-                throw new Error("Illegal condition kind");
-        }
-        
-        /**
-         * Perform the effect of the transition
-         */
-        @Override public void effect() {
-            if(effectMaybe==null) return; // no effect
-            if(effectMaybe==Effect.SET)
-                effectVariable.set(effectArgument);
-            else if(effectMaybe==Effect.CHANGE)
-                effectVariable.set(effectVariable.value()+effectArgument);
-            else
-                throw new Error("Uknown effect");
-        }
-
-        /**
-         * String representation (for debugging)
-         */
-        public String toString() {
-            return "T("+super.getTarget()+"): "+effectMaybe + "@" + effectVariable + "," + effectArgument;
-        }
+    	protected Transition createTransitionHook(String target, 
+    			Effect effect, IntegerState effectVar, int effectArg, 
+    			Condition cond, IntegerState condVariableMaybe, int condValue) {
+    		return new GenericTransition(target,
+    				effect,effectVar,effectArg,
+    				cond, condVariableMaybe,condValue);
+    	}
     }
 }
