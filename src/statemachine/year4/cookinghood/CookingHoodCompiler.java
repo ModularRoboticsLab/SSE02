@@ -29,17 +29,19 @@ either expressed or implied, of the University of Southern Denmark.
 
 package statemachine.year4.cookinghood;
 
-import statemachine.year4.codegen.ICodeGenerator;
+import statemachine.year3.cookinghood.CookingHoodMachine;
+import statemachine.year3.dsl.FluentMachine;
 import statemachine.year4.codegen.MachineCompiler;
 
-public class CookingHoodCompiler extends MachineCompiler {
+public class CookingHoodCompiler {
 
-    public static void main(String argv[]) {
-    	ICodeGenerator generator = new CookingHoodGenerator();
-    	String packageName = "statemachine.year4.cookinghood";
-    	String className = "CookingHood4Impl";
-    	String definition = generator.generate(packageName, className);
-        new CookingHoodCompiler().compile("gen", packageName, className, definition);
+	public static final String packageName = "statemachine.year4.cookinghood";
+	public static final String className = "CookingHood4Impl";
+
+	public static void main(String argv[]) {
+    	FluentMachine model = new CookingHoodMachine();
+    	MachineCompiler comp = new MachineCompiler(model);
+    	comp.compile("gen", packageName, className);
     }
     
    

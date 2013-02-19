@@ -8,10 +8,13 @@ import java.util.Set;
 import statemachine.year2.framework.State;
 import statemachine.year2.framework.Transition;
 import statemachine.year3.dsl.FluentMachine;
+import statemachine.year3.dsl.FluentMachine.Condition;
+import statemachine.year3.dsl.FluentMachine.Effect;
 import statemachine.year3.dsl.IntegerState;
 
-public abstract class MachineCodegenerator extends FluentMachine implements ICodeGenerator {
+public class MachineCodegenerator {
 
+	private FluentMachine model;
 	private StringBuilder builder;
 	private Set<String> variables;
 	private Map<String,Integer> eventMap;
@@ -19,16 +22,10 @@ public abstract class MachineCodegenerator extends FluentMachine implements ICod
 	private int eventIDcounter;
 	private int stateIDcounter;
 	
-	@Override
-	protected Transition createTransitionHook(String target, 
-			Effect effect, IntegerState effectVar, int effectArg, 
-			Condition cond, IntegerState condVariableMaybe, int condValue) {
-		return new TransitionHolder(target,
-                effect,effectVar,effectArg,
-                cond, condVariableMaybe,condValue);
+	public MachineCodegenerator(FluentMachine model) {
+		this.model = model;
 	}
-	
-	@Override
+
 	public String generate(String packageName, String className) {
 		builder = new StringBuilder();
 		variables = new HashSet<String>();
@@ -38,7 +35,7 @@ public abstract class MachineCodegenerator extends FluentMachine implements ICod
 		stateIDcounter = 0;
 		generateHeader(packageName, className);
 		beginGenerateStates();
-		for(State state: getAllStates())
+		for(State state: model.getAllStates())
 			generateState(state);
 		finishGenerateStates();
 		generateVariableDeclarations();
