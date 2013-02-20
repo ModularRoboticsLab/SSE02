@@ -5,6 +5,11 @@ import statemachine.year3.dsl.FluentMachine.Condition;
 import statemachine.year3.dsl.FluentMachine.Effect;
 import statemachine.year3.dsl.IntegerState;
 
+/**
+ * Data value object for transitions
+ * @author ups
+ *
+ */
 public class TransitionHolder extends Transition {
 	private Effect effect;
 	private IntegerState effectVar;

@@ -34,12 +34,23 @@ import javax.swing.JLabel;
 import statemachine.year1.library.GraphicalMachine;
 import statemachine.year1.cookinghood.CookingHood1.ControlGUI;
 
+/**
+ * Cooking hood example using the code-generation CookingHood4Impl class
+ * @author ups
+ *
+ */
 public class CookingHood4 extends GraphicalMachine {
 
+	/**
+	 * Run the example
+	 */
     public static void main(String argv[]) {
         new CookingHood4();
     }
     
+    /**
+     * Create cooking hood example and establish GUI
+     */
     public CookingHood4() {
         super(new ControlGUI(),new CookingHood4Impl(),ControlGUI.POWER_ON_COMMAND);
     }
