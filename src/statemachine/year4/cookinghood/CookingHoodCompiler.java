@@ -44,7 +44,7 @@ public class CookingHoodCompiler {
 	/**
 	 * Package name to use for the generated code
 	 */
-	public static final String packageName = "statemachine.year4.generated";
+	public static final String packageName = "statemachine.year4.cookinghood";
 	/**
 	 * Class name to use for the generated code
 	 */
