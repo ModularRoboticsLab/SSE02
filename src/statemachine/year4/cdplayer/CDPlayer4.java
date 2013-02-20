@@ -27,37 +27,42 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the University of Southern Denmark.
 */
 
-package statemachine.year4.cookinghood;
+package statemachine.year4.cdplayer;
 
-import statemachine.year3.cookinghood.CookingHoodMachine;
-import statemachine.year3.dsl.FluentMachine;
-import statemachine.year4.codegen.MachineCompiler;
+import javax.swing.JLabel;
+
+import statemachine.year1.library.GraphicalMachine;
+import statemachine.year1.cdplayer.CDPlayer1.ControlGUI;
+import statemachine.year4.generated.CDPlayer4Impl;
 
 /**
- * Compiler driver that generates code for the cooking hood in the "gen" source code
- * folder.  Assumes that the target folder already exists.
+ * Cooking hood example using the code-generation CookingHood4Impl class
  * @author ups
  *
  */
-public class CookingHoodCompiler {
+public class CDPlayer4 extends GraphicalMachine {
 
 	/**
-	 * Package name to use for the generated code
+	 * Run the example
 	 */
-	public static final String packageName = "statemachine.year4.generated";
-	/**
-	 * Class name to use for the generated code
-	 */
-	public static final String className = "CookingHood4Impl";
-
-	/**
-	 * Run the compiler
-	 */
-	public static void main(String argv[]) {
-    	FluentMachine model = new CookingHoodMachine();
-    	MachineCompiler comp = new MachineCompiler(model);
-    	comp.compile("gen", packageName, className);
+    public static void main(String argv[]) {
+        new CDPlayer4();
     }
     
-   
+    /**
+     * Create cooking hood example and establish GUI
+     */
+    public CDPlayer4() {
+        super(new ControlGUI(),new CDPlayer4Impl(),ControlGUI.POWER_ON_COMMAND);
+    }
+
+    /**
+     * Handle updates to the state machine, display the current state in the GUI
+     */
+    @Override
+    public void update() {
+        ((JLabel)gui.getComponent("state")).setText(machine.getStateName());
+        ((JLabel)gui.getComponent("track")).setText(new Integer(((CDPlayer4Impl)machine).get_track()).toString());
+    }
+
 }
