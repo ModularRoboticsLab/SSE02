@@ -1,5 +1,5 @@
 // Automatically generated code, do not edit
-package statemachine.year4.generated;
+package statemachine.year4.cookinghood;
 import java.util.Map;
 import statemachine.year4.codegen.GeneratedMachine;
 public class CookingHood4Impl extends GeneratedMachine {
