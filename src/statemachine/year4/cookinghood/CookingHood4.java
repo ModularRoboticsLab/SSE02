@@ -33,6 +33,7 @@ import javax.swing.JLabel;
 
 import statemachine.year1.library.GraphicalMachine;
 import statemachine.year1.cookinghood.CookingHood1.ControlGUI;
+import statemachine.year4.generated.CookingHood4Impl;
 
 /**
  * Cooking hood example using the code-generation CookingHood4Impl class
