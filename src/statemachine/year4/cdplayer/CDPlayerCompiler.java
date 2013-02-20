@@ -27,9 +27,9 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the University of Southern Denmark.
 */
 
-package statemachine.year4.cookinghood;
+package statemachine.year4.cdplayer;
 
-import statemachine.year3.cookinghood.CookingHoodMachine;
+import statemachine.year3.cdplayer.CDPlayerMachine;
 import statemachine.year3.dsl.FluentMachine;
 import statemachine.year4.codegen.MachineCompiler;
 
@@ -39,7 +39,7 @@ import statemachine.year4.codegen.MachineCompiler;
  * @author ups
  *
  */
-public class CookingHoodCompiler {
+public class CDPlayerCompiler {
 
 	/**
 	 * Package name to use for the generated code
@@ -48,13 +48,13 @@ public class CookingHoodCompiler {
 	/**
 	 * Class name to use for the generated code
 	 */
-	public static final String className = "CookingHood4Impl";
+	public static final String className = "CDPlayer4Impl";
 
 	/**
 	 * Run the compiler
 	 */
 	public static void main(String argv[]) {
-    	FluentMachine model = new CookingHoodMachine();
+    	FluentMachine model = new CDPlayerMachine();
     	MachineCompiler comp = new MachineCompiler(model);
     	comp.compile("gen", packageName, className);
     }

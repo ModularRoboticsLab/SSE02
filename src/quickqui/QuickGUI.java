@@ -168,9 +168,11 @@ public class QuickGUI {
     /**
      * Get the component with a given name
      * @param name the name of the component to find
-     * @return the component with matching name, if any, null otherwise
+     * @return the component with matching name, if any, signalling an error otherwise
      */
     public JComponent getComponent(String name) {
-        return componentMap.get(name);
+        JComponent component = componentMap.get(name);
+        if(component==null) throw new Error("Component not found: "+name);
+        return component;
     }
 }
