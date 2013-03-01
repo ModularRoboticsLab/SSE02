@@ -2,50 +2,49 @@
 package statemachine.year4.generated;
 import java.util.Map;
 import statemachine.year4.codegen.GeneratedMachine;
-public class CookingHood4Impl extends GeneratedMachine {
+public class CopyOfCookingHood4Impl extends GeneratedMachine {
   @Override protected void internalProcessEvent(int event) {
     switch(state) {
-    case 0: // OFF
+    case 0: // POWER_OFF
       switch(event) {
       case 0: // PLUS
         {
           power=1;
-          state = 1; // ON
+          state = 1; // POWER_ON
         }
       break;
       default: ; // ignore
       }
     break;
-    case 1: // ON
+    case 1: // POWER_ON
       switch(event) {
       case 0: // PLUS
         if(power==6) {
-          state = 2; // MAX
+          state = 2; // MAX_POWER
         }
       else
         {
           power+=1;
-          state = 1; // ON
         }
       break;
       case 1: // MINUS
         if(power==1) {
-          state = 0; // OFF
+          state = 0; // POWER_OFF
         }
       else
         {
           power+=-1;
-          state = 1; // ON
         }
       break;
       default: ; // ignore
       }
     break;
-    case 2: // MAX
+    case 2: // MAX_POWER
       switch(event) {
       case 1: // MINUS
         {
-          state = 1; // ON
+          power=6;
+          state = 1; // POWER_ON
         }
       break;
       default: ; // ignore
@@ -60,9 +59,9 @@ public class CookingHood4Impl extends GeneratedMachine {
   */
   public int get_power() { return power; }
   @Override protected void internalInitialize(Map<String, Integer> event_code2int, Map<Integer, String> state_int2code) {
-    state_int2code.put(2,"MAX");
-    state_int2code.put(1,"ON");
-    state_int2code.put(0,"OFF");
+    state_int2code.put(1,"POWER_ON");
+    state_int2code.put(0,"POWER_OFF");
+    state_int2code.put(2,"MAX_POWER");
     event_code2int.put("PLUS",0);
     event_code2int.put("MINUS",1);
   }

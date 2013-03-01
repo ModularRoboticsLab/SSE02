@@ -31,7 +31,7 @@ package statemachine.year4.cdplayer;
 
 import statemachine.year3.cdplayer.CDPlayerMachine;
 import statemachine.year3.dsl.FluentMachine;
-import statemachine.year4.codegen.MachineCompiler;
+import statemachine.year4.codegen.MachineGenerator;
 
 /**
  * Compiler driver that generates code for the cooking hood in the "gen" source code
@@ -55,7 +55,7 @@ public class CDPlayerCompiler {
 	 */
 	public static void main(String argv[]) {
     	FluentMachine model = new CDPlayerMachine();
-    	MachineCompiler comp = new MachineCompiler(model);
+    	MachineGenerator comp = new MachineGenerator(model);
     	comp.compile("gen", packageName, className);
     }
     

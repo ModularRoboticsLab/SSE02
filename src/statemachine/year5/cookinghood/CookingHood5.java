@@ -27,37 +27,22 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the University of Southern Denmark.
 */
 
-package statemachine.year4.cookinghood;
+package statemachine.year5.cookinghood;
 
-import statemachine.year3.cookinghood.CookingHoodMachine;
-import statemachine.year3.dsl.FluentMachine;
-import statemachine.year4.codegen.MachineCompiler;
+import statemachine.year4.cookinghood.CookingHood4;
 
 /**
- * Compiler driver that generates code for the cooking hood in the "gen" source code
- * folder.  Assumes that the target folder already exists.
+ * Cooking hood example using the code-generation CookingHood4Impl class
  * @author ups
  *
  */
-public class CookingHoodCompiler {
+public class CookingHood5 extends CookingHood4 {
 
 	/**
-	 * Package name to use for the generated code
+	 * Run the example
 	 */
-	public static final String packageName = "statemachine.year4.generated";
-	/**
-	 * Class name to use for the generated code
-	 */
-	public static final String className = "CookingHood4Impl";
-
-	/**
-	 * Run the compiler
-	 */
-	public static void main(String argv[]) {
-    	FluentMachine model = new CookingHoodMachine();
-    	MachineCompiler comp = new MachineCompiler(model);
-    	comp.compile("gen", packageName, className);
+    public static void main(String argv[]) {
+        new CookingHood5();
     }
-    
-   
+
 }

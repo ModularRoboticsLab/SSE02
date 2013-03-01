@@ -102,10 +102,11 @@ public abstract class FluentMachine extends Machine {
     public FluentMachine() {
     }
     
-    private void buildMachine() {
+    protected void buildMachine() {
     	if(modelIsBuilt) return;
         build();
         flushTransition(null,null,0);
+        if(currentState==null) throw new Error("Empty statemachine definition");
         allStates.add(currentState);
         modelIsBuilt = true;
     }

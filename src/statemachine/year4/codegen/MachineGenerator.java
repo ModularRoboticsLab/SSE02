@@ -16,7 +16,7 @@ import statemachine.year3.dsl.FluentMachine.Effect;
  * @author ups
  *
  */
-public class MachineCompiler {
+public class MachineGenerator {
 
 	/**
 	 * The model to compile
@@ -27,7 +27,7 @@ public class MachineCompiler {
 	 * Create compiler for the given FluentMachine model
 	 * @param machine the model to compile
 	 */
-	public MachineCompiler(FluentMachine machine) {
+	public MachineGenerator(FluentMachine machine) {
 		machine.setTransitionFactory(new HolderFactory());
 		this.machine = machine;
 	}
@@ -39,7 +39,7 @@ public class MachineCompiler {
 	 * @param className class name and also file name to store code in
 	 */
 	public void compile(String directory, String packageName, String className) {
-		String definition = new MachineCodegenerator(machine).generate(packageName, className);
+		String definition = new MachineJavaCodeGenerator(machine).generate(packageName, className);
 		String fileName = directory+File.separatorChar+packageName.replace('.', File.separatorChar)+File.separatorChar+className+".java";
 		try {
 			FileWriter writer = new FileWriter(fileName);

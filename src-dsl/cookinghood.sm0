@@ -1,0 +1,11 @@
+machine statemachine.year4.generated.CookingHood4Impl
+variable power
+state OFF
+  PLUS to ON / power = 1
+state ON
+  MINUS [ power = 1 ] to OFF
+  MINUS to ON / power + -1
+  PLUS [ power = 6 ] to MAX
+  PLUS to ON / power + 1
+state MAX
+  MINUS to ON

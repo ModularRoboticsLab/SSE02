@@ -27,11 +27,11 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the University of Southern Denmark.
 */
 
-package statemachine.year4.microwaveoven;
+package statemachine.year5.cookinghood;
 
-import statemachine.year3.dsl.FluentMachine;
-import statemachine.year3.microwaveoven.MicrowaveMachine;
-import statemachine.year4.codegen.MachineGenerator;
+import java.io.FileNotFoundException;
+
+import statemachine.year5.compiler.MachineCompiler;
 
 /**
  * Compiler driver that generates code for the cooking hood in the "gen" source code
@@ -39,24 +39,14 @@ import statemachine.year4.codegen.MachineGenerator;
  * @author ups
  *
  */
-public class MicroWaveOvenCompiler {
-
-	/**
-	 * Package name to use for the generated code
-	 */
-	public static final String packageName = "statemachine.year4.generated";
-	/**
-	 * Class name to use for the generated code
-	 */
-	public static final String className = "MicroWaveOven4Impl";
+public class CookingHoodCompiler {
 
 	/**
 	 * Run the compiler
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String argv[]) {
-    	FluentMachine model = new MicrowaveMachine();
-    	MachineGenerator comp = new MachineGenerator(model);
-    	comp.compile("gen", packageName, className);
+	public static void main(String argv[]) throws FileNotFoundException {
+    	MachineCompiler.compile("src-dsl/cookinghood.sm0","gen");
     }
     
    

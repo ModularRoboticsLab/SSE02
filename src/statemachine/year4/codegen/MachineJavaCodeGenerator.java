@@ -21,7 +21,7 @@ import statemachine.year3.dsl.IntegerState;
  * @author ups
  *
  */
-public class MachineCodegenerator {
+public class MachineJavaCodeGenerator {
 
 	/**
 	 * The model according to which the code is generated
@@ -57,7 +57,7 @@ public class MachineCodegenerator {
 	 * Create a code generator for the corresponding state machine model
 	 * @param model the state machine for which code is to be generated
 	 */
-	public MachineCodegenerator(FluentMachine model) {
+	public MachineJavaCodeGenerator(FluentMachine model) {
 		this.model = model;
 	}
 

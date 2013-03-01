@@ -27,10 +27,10 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the University of Southern Denmark.
 */
 
-package statemachine.year4.microwaveoven;
+package statemachine.year4.cookinghood;
 
+import statemachine.year3.cookinghood.CookingHoodMachine;
 import statemachine.year3.dsl.FluentMachine;
-import statemachine.year3.microwaveoven.MicrowaveMachine;
 import statemachine.year4.codegen.MachineGenerator;
 
 /**
@@ -39,7 +39,7 @@ import statemachine.year4.codegen.MachineGenerator;
  * @author ups
  *
  */
-public class MicroWaveOvenCompiler {
+public class CookingHoodGenerator {
 
 	/**
 	 * Package name to use for the generated code
@@ -48,13 +48,13 @@ public class MicroWaveOvenCompiler {
 	/**
 	 * Class name to use for the generated code
 	 */
-	public static final String className = "MicroWaveOven4Impl";
+	public static final String className = "CookingHood4Impl";
 
 	/**
 	 * Run the compiler
 	 */
 	public static void main(String argv[]) {
-    	FluentMachine model = new MicrowaveMachine();
+    	FluentMachine model = new CookingHoodMachine();
     	MachineGenerator comp = new MachineGenerator(model);
     	comp.compile("gen", packageName, className);
     }
