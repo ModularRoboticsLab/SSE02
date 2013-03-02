@@ -1,0 +1,10 @@
+machine statemachine.year4.generated.MicroWaveOven4Impl
+state INACTIVE
+  START to COOKING
+state COOKING
+  TIMER to INACTIVE
+  STOP to INACTIVE
+  OPEN to DOOR_OPEN
+state DOOR_OPEN
+  CLOSE to COOKING
+  STOP to INACTIVE
