@@ -1,4 +1,4 @@
-machine statemachine.year4.generated.CookingHood4Impl
+machine statemachine.generated.CookingHoodImpl
 variable power
 state OFF
   PLUS to ON / power = 1

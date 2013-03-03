@@ -1,0 +1,16 @@
+machine statemachine.generated.CDPlayerImpl
+variable track
+state STOPPED
+  PLAY [ track = 0 ] to PLAYING / track = 1
+  else PLAYING
+  FORWARD to STOPPED / track + 1
+  BACK [ track > 1 ] to STOPPED track + -1 
+state PLAYING
+  STOP to STOPPED / track = 0
+  PAUSE to PAUSED
+  TRACK_END to PLAYING / track + 1
+state PAUSED
+  STOP to STOPPED
+  PLAY to PLAYING
+  FORWARD to PAUSED / track + 1
+  BACK [ track > 1 ] to PAUED / track + -1

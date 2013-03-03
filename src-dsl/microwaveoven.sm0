@@ -1,4 +1,4 @@
-machine statemachine.year4.generated.MicroWaveOven4Impl
+machine statemachine.generated.MicroWaveOvenImpl
 state INACTIVE
   START to COOKING
 state COOKING
