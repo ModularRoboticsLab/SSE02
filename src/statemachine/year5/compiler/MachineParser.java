@@ -71,43 +71,52 @@ public class MachineParser extends FluentMachine {
 	private boolean parseTransitionLine(String line) throws ParseError {
 		Lexer lex = new Lexer(line);
 		if(lex.match("state")) return false;
+		// Else line?
+		if(lex.match("else")) {
+			lex.nextMatch("else");
+			String state = lex.next("state");
+			super.to(state);
+			super.otherwise();
+			// Skip any action
+			return true;
+		}
 		// Event
 		String event = lex.next("event");
 		super.transition(event);
 		// Condition?
-		IntegerState variable = null;
-		String operator = null;
-		Integer value = null;
+		IntegerState condVariable = null;
+		String condOperator = null;
+		Integer condValue = null;
 		if(lex.match("[")) {
 			lex.nextMatch("[");
-			 variable = getExtendedVariable(lex.next("variable"));
-			 operator = lex.next("operator");
-			 value = lex.nextInt();
+			 condVariable = getExtendedVariable(lex.next("variable"));
+			 condOperator = lex.next("operator");
+			 condValue = lex.nextInt();
 			 lex.nextMatch("]");
 		}
 		// Target state
 		lex.nextMatch("to");
 		super.to(lex.next("state"));
-		// Insert condition
-		if("=".equals(operator))
-			super.whenStateEquals(variable, value);
-		else if(">".equals(operator))
-			super.whenStateGreaterThan(variable, value);
-		else if(operator!=null)
-			throw new ParseError("Illegal condition operator: "+operator);
 		// Action?
 		if(lex.match("/")) {
 			lex.nextMatch("/");
-			variable = getExtendedVariable(lex.next("variable"));
-			operator = lex.next("oeprator");
-			value = lex.nextInt();
-			if("=".equals(operator))
-				super.setState(variable, value);
-			else if("+".equals(operator))
-				super.changeState(variable, value);
+			IntegerState actionVariable = getExtendedVariable(lex.next("variable"));
+			String actionOperator = lex.next("oeprator");
+			Integer actionValue = lex.nextInt();
+			if("=".equals(actionOperator))
+				super.setState(actionVariable, actionValue);
+			else if("+".equals(actionOperator))
+				super.changeState(actionVariable, actionValue);
 			else
-				throw new ParseError("Illegal action operator: "+operator);
+				throw new ParseError("Illegal action operator: "+actionOperator);
 		}
+		// Insert condition, if any
+		if("=".equals(condOperator))
+			super.whenStateEquals(condVariable, condValue);
+		else if(">".equals(condOperator))
+			super.whenStateGreaterThan(condVariable, condValue);
+		else if(condOperator!=null)
+			throw new ParseError("Illegal condition operator: "+condOperator);
 		return true;
 	}
 
