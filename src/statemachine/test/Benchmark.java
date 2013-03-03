@@ -47,21 +47,21 @@ public class Benchmark {
 		new statemachine.year1.cdplayer.CDPlayerMachine(), 
 		new statemachine.year2.cdplayer.CDPlayerMachine(), 
 		new statemachine.year3.cdplayer.CDPlayerMachine(), 
-		new statemachine.year4.generated.CDPlayer4Impl(), 
+		new statemachine.generated.CDPlayerImpl(), 
 	};
 	
 	private final IMachine[] machinesList_cookinghood = new IMachine[] {
 			new statemachine.year1.cookinghood.CookingHoodMachine(),
 			new statemachine.year2.cookinghood.CookingHoodMachine(),
 			new statemachine.year3.cookinghood.CookingHoodMachine(),
-			new statemachine.year4.generated.CookingHood4Impl(),
+			new statemachine.generated.CookingHoodImpl(),
 	};
 		
 	private final IMachine[] machinesList_microwaveoven = new IMachine[] {
 			new statemachine.year1.microwaveoven.MicrowaveMachine(),
 			new statemachine.year2.microwaveoven.MicrowaveMachine(),
 			new statemachine.year3.microwaveoven.MicrowaveMachine(),
-			new statemachine.year4.generated.MicroWaveOven4Impl(),
+			new statemachine.generated.MicroWaveOvenImpl(),
 		};
 		
 
