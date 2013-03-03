@@ -1,8 +1,8 @@
 // Automatically generated code, do not edit
-package statemachine.year4.generated;
+package statemachine.generated;
 import java.util.Map;
 import statemachine.year4.codegen.GeneratedMachine;
-public class MicroWaveOven4Impl extends GeneratedMachine {
+public class MicroWaveOvenImpl extends GeneratedMachine {
   @Override protected void internalProcessEvent(int event) {
     switch(state) {
     case 0: // INACTIVE

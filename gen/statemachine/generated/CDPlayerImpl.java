@@ -1,20 +1,21 @@
 // Automatically generated code, do not edit
-package statemachine.year4.generated;
+package statemachine.generated;
 import java.util.Map;
 import statemachine.year4.codegen.GeneratedMachine;
-public class CDPlayer4Impl extends GeneratedMachine {
+public class CDPlayerImpl extends GeneratedMachine {
   @Override protected void internalProcessEvent(int event) {
     switch(state) {
-    case 0: // STOP
+    case 0: // STOPPED
       switch(event) {
       case 0: // BACK
         if(track>1) {
-          track+=-1;
+          state = 0; // STOPPED
         }
       break;
       case 1: // FORWARD
         {
           track+=1;
+          state = 0; // STOPPED
         }
       break;
       case 2: // PLAY
@@ -35,12 +36,13 @@ public class CDPlayer4Impl extends GeneratedMachine {
       case 3: // STOP
         {
           track=0;
-          state = 0; // STOP
+          state = 0; // STOPPED
         }
       break;
       case 4: // TRACK_END
         {
           track+=1;
+          state = 1; // PLAYING
         }
       break;
       case 5: // PAUSE
@@ -56,16 +58,18 @@ public class CDPlayer4Impl extends GeneratedMachine {
       case 0: // BACK
         if(track>1) {
           track+=-1;
+          state = 3; // PAUED
         }
       break;
       case 3: // STOP
         {
-          state = 0; // STOP
+          state = 0; // STOPPED
         }
       break;
       case 1: // FORWARD
         {
           track+=1;
+          state = 2; // PAUSED
         }
       break;
       case 2: // PLAY
@@ -85,7 +89,8 @@ public class CDPlayer4Impl extends GeneratedMachine {
   */
   public int get_track() { return track; }
   @Override protected void internalInitialize(Map<String, Integer> event_code2int, Map<Integer, String> state_int2code) {
-    state_int2code.put(0,"STOP");
+    state_int2code.put(3,"PAUED");
+    state_int2code.put(0,"STOPPED");
     state_int2code.put(1,"PLAYING");
     state_int2code.put(2,"PAUSED");
     event_code2int.put("STOP",3);

@@ -1,8 +1,8 @@
 // Automatically generated code, do not edit
-package statemachine.year4.generated;
+package statemachine.generated;
 import java.util.Map;
 import statemachine.year4.codegen.GeneratedMachine;
-public class CookingHood4Impl extends GeneratedMachine {
+public class CookingHoodImpl extends GeneratedMachine {
   @Override protected void internalProcessEvent(int event) {
     switch(state) {
     case 0: // OFF
