@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 
 import statemachine.year1.library.GraphicalMachine;
 import statemachine.year1.cdplayer.CDPlayer1.ControlGUI;
-import statemachine.year4.generated.CDPlayer4Impl;
+import statemachine.generated.CDPlayerImpl;
 
 /**
  * Cooking hood example using the code-generation CookingHood4Impl class
@@ -53,7 +53,7 @@ public class CDPlayer4 extends GraphicalMachine {
      * Create cooking hood example and establish GUI
      */
     public CDPlayer4() {
-        super(new ControlGUI(),new CDPlayer4Impl(),ControlGUI.POWER_ON_COMMAND);
+        super(new ControlGUI(),new CDPlayerImpl(),ControlGUI.POWER_ON_COMMAND);
     }
 
     /**
@@ -62,7 +62,7 @@ public class CDPlayer4 extends GraphicalMachine {
     @Override
     public void update() {
         ((JLabel)gui.getComponent("state")).setText(machine.getStateName());
-        ((JLabel)gui.getComponent("track")).setText(new Integer(((CDPlayer4Impl)machine).get_track()).toString());
+        ((JLabel)gui.getComponent("track")).setText(new Integer(((CDPlayerImpl)machine).get_track()).toString());
     }
 
 }

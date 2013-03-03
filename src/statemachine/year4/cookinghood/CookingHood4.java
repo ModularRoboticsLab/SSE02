@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 
 import statemachine.year1.library.GraphicalMachine;
 import statemachine.year1.cookinghood.CookingHood1.ControlGUI;
-import statemachine.year4.generated.CookingHood4Impl;
+import statemachine.generated.CookingHoodImpl;
 
 /**
  * Cooking hood example using the code-generation CookingHood4Impl class
@@ -53,7 +53,7 @@ public class CookingHood4 extends GraphicalMachine {
      * Create cooking hood example and establish GUI
      */
     public CookingHood4() {
-        super(new ControlGUI(),new CookingHood4Impl(),ControlGUI.POWER_ON_COMMAND);
+        super(new ControlGUI(),new CookingHoodImpl(),ControlGUI.POWER_ON_COMMAND);
     }
 
     /**
@@ -62,7 +62,7 @@ public class CookingHood4 extends GraphicalMachine {
     @Override
     public void update() {
         ((JLabel)gui.getComponent("state")).setText(machine.getStateName());
-        ((JLabel)gui.getComponent("power")).setText(new Integer(((CookingHood4Impl)machine).get_power()).toString());
+        ((JLabel)gui.getComponent("power")).setText(new Integer(((CookingHoodImpl)machine).get_power()).toString());
     }
 
 }
