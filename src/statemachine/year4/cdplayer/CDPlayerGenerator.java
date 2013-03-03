@@ -39,16 +39,16 @@ import statemachine.year4.codegen.MachineGenerator;
  * @author ups
  *
  */
-public class CDPlayerCompiler {
+public class CDPlayerGenerator {
 
 	/**
 	 * Package name to use for the generated code
 	 */
-	public static final String packageName = "statemachine.year4.generated";
+	public static final String packageName = "statemachine.generated";
 	/**
 	 * Class name to use for the generated code
 	 */
-	public static final String className = "CDPlayer4Impl";
+	public static final String className = "CDPlayerImpl";
 
 	/**
 	 * Run the compiler
