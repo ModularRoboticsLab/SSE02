@@ -48,61 +48,61 @@ public class MachineParser extends FluentMachine {
 	
 	private void parseStateMachineName(String line) throws ParseError {
 		Lexer lex = new Lexer(line);
-		lex.nextMatch("machine");
-		name = lex.next("machine name");
+		lex.popAndMatchToken("machine");
+		name = lex.popToken("machine name");
 	}
 	
 	private boolean parseVariableName(String line) throws ParseError {
 		Lexer lex = new Lexer(line);
-		if(!lex.match("variable")) return false;
-		lex.nextMatch("variable");
-		makeExternalVariable(lex.next("variable name"));
+		if(!lex.checkMatch("variable")) return false;
+		lex.popAndMatchToken("variable");
+		makeExternalVariable(lex.popToken("variable name"));
 		return true;
 	}
 	
 	private boolean parseStateLine(String line) throws ParseError {
 		Lexer lex = new Lexer(line);
-		if(!lex.match("state")) return false;
-		lex.nextMatch("state");
-		super.state(lex.next("state"));
+		if(!lex.checkMatch("state")) return false;
+		lex.popAndMatchToken("state");
+		super.state(lex.popToken("state"));
 		return true;
 	}
 	
 	private boolean parseTransitionLine(String line) throws ParseError {
 		Lexer lex = new Lexer(line);
-		if(lex.match("state")) return false;
+		if(lex.checkMatch("state")) return false;
 		// Else line?
-		if(lex.match("else")) {
-			lex.nextMatch("else");
-			String state = lex.next("state");
+		if(lex.checkMatch("else")) {
+			lex.popAndMatchToken("else");
+			String state = lex.popToken("state");
 			super.to(state);
 			super.otherwise();
 			// Skip any action
 			return true;
 		}
 		// Event
-		String event = lex.next("event");
+		String event = lex.popToken("event");
 		super.transition(event);
 		// Condition?
 		IntegerState condVariable = null;
 		String condOperator = null;
 		Integer condValue = null;
-		if(lex.match("[")) {
-			lex.nextMatch("[");
-			 condVariable = getExtendedVariable(lex.next("variable"));
-			 condOperator = lex.next("operator");
-			 condValue = lex.nextInt();
-			 lex.nextMatch("]");
+		if(lex.checkMatch("[")) {
+			lex.popAndMatchToken("[");
+			 condVariable = getExtendedVariable(lex.popToken("variable"));
+			 condOperator = lex.popToken("operator");
+			 condValue = lex.popTokenAsInt();
+			 lex.popAndMatchToken("]");
 		}
 		// Target state
-		lex.nextMatch("to");
-		super.to(lex.next("state"));
+		lex.popAndMatchToken("to");
+		super.to(lex.popToken("state"));
 		// Action?
-		if(lex.match("/")) {
-			lex.nextMatch("/");
-			IntegerState actionVariable = getExtendedVariable(lex.next("variable"));
-			String actionOperator = lex.next("oeprator");
-			Integer actionValue = lex.nextInt();
+		if(lex.checkMatch("/")) {
+			lex.popAndMatchToken("/");
+			IntegerState actionVariable = getExtendedVariable(lex.popToken("variable"));
+			String actionOperator = lex.popToken("oeprator");
+			Integer actionValue = lex.popTokenAsInt();
 			if("=".equals(actionOperator))
 				super.setState(actionVariable, actionValue);
 			else if("+".equals(actionOperator))
