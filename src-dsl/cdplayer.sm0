@@ -13,4 +13,4 @@ state PAUSED
   STOP to STOPPED
   PLAY to PLAYING
   FORWARD to PAUSED / track + 1
-  BACK [ track > 1 ] to PAUED / track + -1
+  BACK [ track > 1 ] to PAUSED / track + -1

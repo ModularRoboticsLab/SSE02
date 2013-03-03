@@ -58,7 +58,7 @@ public class CDPlayerImpl extends GeneratedMachine {
       case 0: // BACK
         if(track>1) {
           track+=-1;
-          state = 3; // PAUED
+          state = 2; // PAUSED
         }
       break;
       case 3: // STOP
@@ -89,7 +89,6 @@ public class CDPlayerImpl extends GeneratedMachine {
   */
   public int get_track() { return track; }
   @Override protected void internalInitialize(Map<String, Integer> event_code2int, Map<Integer, String> state_int2code) {
-    state_int2code.put(3,"PAUED");
     state_int2code.put(0,"STOPPED");
     state_int2code.put(1,"PLAYING");
     state_int2code.put(2,"PAUSED");
