@@ -18,6 +18,9 @@ class SSE02ERExGenerator implements IGenerator {
 		}
 	}
 	
+	/**
+	 * Generate a single entity
+	 */
 	def compile(Entity entity) '''
 	// This file has been automatically generated
 	package entityrelation;
@@ -30,6 +33,10 @@ class SSE02ERExGenerator implements IGenerator {
 	}
 	'''
 	
+	/**
+	 * For each attribute, generate field and getter and setter
+	 * using List for many-attributes
+	 */
 	def compile(Attribute attribute) '''
 		«IF attribute.many»
 		private List<«attribute.type.name»> «attribute.name» = new ArrayList<«attribute.type.name»>();

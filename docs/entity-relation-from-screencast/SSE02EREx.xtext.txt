@@ -1,25 +1,31 @@
+// Minimalistic Entity-Relation system example (really, almost just a bunch of value objects)
+// Rename file by removing ".txt" extension
 grammar dk.sdu.mmmi.SSE02EREx with org.eclipse.xtext.common.Terminals
 
 generate sSE02EREx "http://www.sdu.dk/mmmi/SSE02EREx"
 
+// System with a name (name is not currently used, but will be used in an extended version)
 ERSystem:
 	'system' name=ID declarations+=Declaration+
 ;
 
+// Only two types of declarations, primitive types and entities
 Declaration:
 	Type | Entity
 ;
 
+// Type: a primitive type, e.g. String or Integer
 Type:
 	'type' name=ID
 ;
 
-
+// An entity
 Entity:
 	'entity' name=ID ('extends' base=[Entity])? 
 	'{' attributes+=Attribute* '}'
 ;
 
+// Attribute of an entity
 Attribute:
 	name=ID ':' (many?='many')? type=[Declaration]
 ;
