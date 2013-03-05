@@ -1,0 +1,27 @@
+grammar dk.sdu.mmmi.SSE02EREx with org.eclipse.xtext.common.Terminals
+
+generate sSE02EREx "http://www.sdu.dk/mmmi/SSE02EREx"
+
+ERSystem:
+	'system' name=ID declarations+=Declaration+
+;
+
+Declaration:
+	Type | Entity
+;
+
+Type:
+	'type' name=ID
+;
+
+
+Entity:
+	'entity' name=ID ('extends' base=[Entity])? 
+	'{' attributes+=Attribute* '}'
+;
+
+Attribute:
+	name=ID ':' (many?='many')? type=[Declaration]
+;
+
+
